@@ -1,234 +1,350 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="neon-yellow">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FLAVRZ - By Jassi Pajji</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <style>
+        /* UPDATED: CSS Variables mapped to Code A's Color Palette */
         :root {
-            --primary: #E2FF00;
-            --secondary: #00E676;
-            --bg-body: #050505;
-            --bg-card: #121212;
-            --bg-glass: rgba(18, 18, 18, 0.95);
+            /* Code A Palette Mapped to Code B Variables */
+            --primary: #00f2ff;       /* Cyan (Was Red) */
+            --secondary: #bc13fe;     /* Purple (Was Green) */
+            --accent: #ff0055;        /* Pink (Added from Code A) */
+            
+            /* Backgrounds from Code A */
+            --bg-body: #050505;       /* Code A Dark BG */
+            --bg-card: #141416;       /* Code A Card BG */
+            
+            /* Text Colors from Code A */
             --text-main: #ffffff;
+            --text-light: #a0a0a0;
+            
+            /* Interface Colors */
+            --input-bg: #1a1a1c;
             --border-color: #333333;
-            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 8px 24px rgba(0, 242, 255, 0.1); /* Cyan shadow glow */
+            --radius-xl: 24px;
+
+            /* Functional Colors for Veg/Non-Veg (Styled to match Neon Theme) */
+            --veg-color: #2ED573;
+            --nonveg-color: #ff0055; 
         }
 
-        [data-theme="neon-blue"] { --primary: #00F2FF; }
-        [data-theme="neon-red"] { --primary: #FF0055; }
+        /* Enforcing Code A's Dark Theme across modes */
+        [data-theme="light"], [data-theme="dark"] {
+            --bg-body: #050505;
+            --bg-card: #141416;
+            --text-main: #ffffff;
+            --text-light: #b3b3b3;
+            --input-bg: #1a1a1c;
+            --border-color: #333;
+        }
 
+        /* ANIMATIONS */
+        @keyframes bounceLetter { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes pulseMusic { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(0, 242, 255, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 255, 0); } }
+        
+        /* UPDATED: Global Font Family to Outfit */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 120px; transition: 0.3s; }
+        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 120px; transition: background 0.3s ease; }
 
-        .brand-card { background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(5,5,5,0) 100%); padding: 30px 20px 10px; text-align: center; }
-        .main-header { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary); animation: float 3s ease-in-out infinite; cursor: pointer; user-select: none; }
-        .tagline { font-size: 0.9rem; color: #aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
-        .action-grid { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
-        .glow-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
-        .glow-btn:active { background: var(--primary); color: black; border-color: var(--primary); }
-
-        .glass-header { background: var(--bg-glass); backdrop-filter: blur(12px); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
-        .search-container { flex: 1; background: #1f1f1f; display: flex; align-items: center; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .search-container input { background: none; border: none; outline: none; width: 100%; color: white; margin-left: 10px; }
-
-        .hero-banner { margin: 20px; background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; box-shadow: var(--shadow-card); }
-        .hero-banner h2 { color: var(--primary); text-transform: uppercase; font-style: italic; }
-        .offers-banner { margin: 0 20px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--primary); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; color: var(--primary); }
-
-        .section-header { padding: 0 20px; font-size: 18px; font-weight: 800; margin: 25px 0 15px; border-left: 3px solid var(--primary); padding-left: 15px; text-transform: uppercase; }
-        .special-grid { display: flex; overflow-x: auto; gap: 15px; padding: 0 20px 20px; scrollbar-width: none; }
-        .special-card { min-width: 160px; background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative; }
-        .special-img { width: 100%; height: 110px; object-fit: cover; }
-        .special-badge { position: absolute; top: 5px; left: 5px; background: var(--primary); color: black; font-weight: bold; font-size: 10px; padding: 2px 5px; border-radius: 4px; }
+        /* HEADER */
+        .brand-card { background: var(--bg-card); width: 100%; padding: 40px 20px 25px; border-radius: 0 0 35px 35px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; position: relative; z-index: 1; border-bottom: 1px solid #333; }
+        .main-header { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 3.8rem; margin: 0; line-height: 1; text-transform: uppercase; display: inline-block; letter-spacing: -2px; }
+        .letter { display: inline-block; animation: bounceLetter 1.2s infinite ease-in-out; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
         
-        .cat-nav { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; position: sticky; top: 70px; z-index: 990; background: var(--bg-body); border-bottom: 1px solid #222; }
-        .chip { padding: 6px 16px; background: transparent; border: 1px solid #444; border-radius: 50px; font-size: 13px; color: #aaa; white-space: nowrap; transition: 0.3s; }
-        .chip.active { background: var(--primary); color: black; border-color: var(--primary); font-weight: 700; }
-
-        .food-card-grid { display: flex; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 10px; gap: 12px; margin: 0 20px 12px; position: relative; }
-        .food-img-grid { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; background: #222; }
-        .food-title-grid { font-size: 15px; font-weight: 700; color: white; }
-        .food-price-grid { font-size: 15px; font-weight: 700; color: var(--primary); }
-
-        .add-btn { background: var(--primary); color: black; border: none; padding: 6px 18px; border-radius: 6px; font-weight: 800; font-size: 12px; position: absolute; right: 10px; bottom: 10px; }
-        .qty-group { display: flex; align-items: center; background: #222; border: 1px solid #444; border-radius: 6px; height: 30px; position: absolute; right: 10px; bottom: 10px; }
-        .qty-btn { width: 25px; color: var(--primary); background: none; border: none; font-weight: bold; font-size: 16px; }
-        .qty-val { color: white; font-weight: bold; font-size: 13px; padding: 0 5px; }
-
-        .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--primary); color: black; padding: 15px 20px; border-radius: 12px; display: none; justify-content: space-between; align-items: center; z-index: 1001; font-weight: 900; box-shadow: 0 0 20px var(--primary); animation: float 4s infinite; }
+        /* UPDATED: Logo Letter Colors to match Code A Gradients */
+        .l-1 { color: #00f2ff; animation-delay: 0s; } 
+        .l-2 { color: #bc13fe; animation-delay: 0.1s; } 
+        .l-3 { color: #ff0055; animation-delay: 0.2s; }
+        .l-4 { color: #00f2ff; animation-delay: 0.3s; } 
+        .l-5 { color: #bc13fe; animation-delay: 0.4s; } 
+        .l-6 { color: #ff0055; animation-delay: 0.5s; }
         
-        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; }
-        .bottom-sheet { background: #111; width: 100%; border-radius: 20px 20px 0 0; padding: 25px; max-height: 90vh; position: absolute; bottom: 0; border-top: 1px solid #333; color: white; display: flex; flex-direction: column; }
-        
-        .input-v2, select.input-v2, textarea.input-v2 { background: #222; border: 1px solid #333; color: white; padding: 15px; width: 100%; border-radius: 8px; margin-bottom: 10px; outline: none; }
-        .btn-checkout { background: var(--secondary); color: black; font-weight: 800; padding: 15px; width: 100%; border: none; border-radius: 8px; font-size: 16px; margin-top: 10px; }
+        .tagline { font-family: 'Outfit', sans-serif; font-weight: 300; letter-spacing: 3px; font-size: 0.9rem; margin-top: 10px; margin-bottom: 20px; color: var(--text-light); text-transform: uppercase; }
+        .tag-fresh { color: var(--primary); font-weight: 800; font-size: 1rem; } .tag-flavor { color: var(--secondary); font-weight: 800; font-size: 1rem; }
 
-        .music-pill { position: fixed; bottom: 85px; right: 20px; z-index: 1100; background: rgba(0,0,0,0.9); border: 1px solid #333; padding: 8px 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; }
-        .toggle-switch { width: 40px; height: 20px; background: #333; border-radius: 20px; position: relative; transition: 0.3s; }
-        .toggle-switch::after { content:''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: 0.3s; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .call-btn { background: var(--input-bg); color: var(--text-main); border: 1px solid #333; padding: 12px; border-radius: 50px; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; font-size: 13px; transition: 0.2s; }
+        .map-btn { background: linear-gradient(90deg, #00f2ff, #bc13fe); color: #000; text-decoration: none; padding: 14px; border-radius: 50px; font-weight: 800; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; max-width: 500px; margin: 0 auto 15px; }
+        .header-actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; max-width: 500px; margin: 0 auto; }
+        .h-btn { padding: 10px; border-radius: 15px; font-size: 11px; font-weight: 700; text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; background: var(--bg-card); border: 1px solid var(--border-color); box-shadow: 0 2px 5px rgba(0,0,0,0.02); color: var(--text-main); }
+        .h-btn i { font-size: 20px; color: var(--primary); }
+
+        /* SEARCH */
+        .glass-header { background: rgba(5,5,5,0.95); backdrop-filter: blur(10px); padding: 10px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid #222; }
+        .brand-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .search-container { flex: 1; background: var(--input-bg); display: flex; align-items: center; padding: 12px 18px; border-radius: 50px; gap: 10px; border: 1px solid #333; transition: 0.3s; }
+        .search-container input { background: none; border: none; outline: none; width: 100%; font-weight: 600; color: var(--text-main); font-family: 'Outfit', sans-serif; }
+        
+        /* VEG TOGGLE */
+        .veg-toggle-container { display: flex; flex-direction: column; align-items: center; cursor: pointer; }
+        .veg-switch { width: 36px; height: 20px; background: #333; border-radius: 20px; position: relative; transition:0.3s; border: 1px solid #444; }
+        .veg-switch::after { content:''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; background: white; border-radius: 50%; transition:0.3s; }
+        #veg-toggle-cb:checked ~ .veg-switch { background: var(--veg-color); }
+        #veg-toggle-cb:checked ~ .veg-switch::after { transform: translateX(16px); }
+
+        /* HERO & GALLERY & SPECIALS */
+        .hero-banner { margin: 20px; background: linear-gradient(135deg, #141416 0%, #000 100%); border: 1px solid #333; border-radius: var(--radius-xl); padding: 25px; color: white; position: relative; overflow: hidden; box-shadow: var(--shadow-card); }
+        .offers-banner { margin: 0 20px 20px; background: linear-gradient(90deg, #bc13fe, #ff0055); border-radius: 16px; padding: 15px; color: white; display: flex; align-items: center; gap: 12px; box-shadow: 0 8px 20px rgba(188, 19, 254, 0.2); }
+        .section-header { padding: 0 20px; font-size: 16px; font-weight: 800; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .gallery-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 0 20px 20px; scrollbar-width: none; }
+        .gallery-card { min-width: 100px; width: 100px; height: 100px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: #1a1a1c; border: 2px solid var(--primary); box-shadow: var(--shadow-card); position: relative; }
+        .gallery-img { width: 100%; height: 100%; object-fit: cover; }
+
+        .special-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .special-card { background: var(--bg-card); border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-card); position: relative; border: 1px solid #333; }
+        .special-badge { position: absolute; top: 8px; left: 8px; background: var(--accent); color: white; font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 10px; z-index: 2; }
+        .special-img { width: 100%; aspect-ratio: 1/1; object-fit: contain; padding: 10px; }
+        .add-btn-small { width: 100%; background: var(--primary); color: #000; border: none; padding: 6px; border-radius: 8px; font-size: 11px; font-weight: 800; margin-top: 5px; }
+
+        /* MENU GRID */
+        .cat-nav { display: flex; overflow-x: auto; padding: 0 20px 10px; gap: 10px; scrollbar-width: none; position: sticky; top: 80px; z-index: 998; background: var(--bg-body); padding-top: 10px; }
+        .chip { padding: 8px 18px; background: var(--bg-card); border-radius: 50px; font-size: 13px; font-weight: 600; color: var(--text-light); border: 1px solid #333; white-space: nowrap; transition: 0.3s; }
+        .chip.active { background: var(--primary); color: #000; font-weight: 800; border-color: var(--primary); transform: scale(1.05); }
+        .menu-grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 0 20px; }
+        .food-card-grid { background: var(--bg-card); border-radius: 20px; overflow: hidden; box-shadow: none; position: relative; display: flex; flex-direction: column; transition: transform 0.2s; border: 1px solid #333; }
+        .food-card-grid.out-of-stock { opacity: 0.4; filter: grayscale(1); pointer-events: none; }
+        .food-img-grid { width: 100%; aspect-ratio: 1/1; object-fit: contain; padding: 8px; background: #fff; border-radius: 20px 20px 0 0;} 
+        .type-badge { position: absolute; top: 10px; left: 10px; width: 14px; height: 14px; border: 2px solid white; border-radius: 4px; z-index: 2; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .veg-bg { background: var(--veg-color); } .nonveg-bg { background: var(--nonveg-color); }
+        .food-details-grid { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
+        .food-title-grid { font-size: 14px; font-weight: 700; margin-bottom: 3px; line-height: 1.2; color: var(--text-main); }
+        .food-desc-grid { font-size: 10px; color: var(--text-light); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-weight: 300; }
+        .food-price-grid { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+        .add-btn { width: 100%; background: var(--bg-card); border: 1px solid var(--primary); color: var(--primary); padding: 8px; border-radius: 12px; font-weight: 800; font-size: 12px; margin-top: auto; }
+        .add-btn:active { background: var(--primary); color: #000; }
+        .qty-group { display: flex; justify-content: space-between; align-items: center; background: var(--primary); color: #000; border-radius: 12px; padding: 0 5px; height: 34px; margin-top: auto; box-shadow: 0 5px 15px rgba(0, 242, 255, 0.2); }
+        .qty-btn { background: transparent; border: none; color: #000; font-size: 16px; font-weight: 800; width: 25px; height: 100%; display: flex; align-items: center; justify-content: center; }
+
+        /* CART & MUSIC */
+        .cart-bar { position: fixed; bottom: 25px; left: 20px; right: 20px; background: var(--accent); color: white; padding: 16px 25px; border-radius: 50px; display: none; justify-content: space-between; align-items: center; z-index: 1001; box-shadow: 0 10px 30px rgba(255, 0, 85, 0.3); animation: fadeIn 0.3s; cursor: pointer; font-family: 'Outfit', sans-serif; }
+        .music-pill { position: fixed; bottom: 90px; right: 20px; z-index: 1100; background: rgba(20,20,20,0.9); color: white; padding: 10px 20px; border-radius: 50px; display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.3s; border: 1px solid #333; cursor: pointer; }
+        .music-pill.playing { background: var(--secondary); color: #fff; animation: pulseMusic 1s infinite alternate; border-color: var(--secondary); }
+
+        /* ADMIN */
+        .admin-toggle-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: var(--bg-body); border-radius: 12px; margin-bottom: 10px; border: 1px solid #333; }
+        .toggle-switch { position: relative; width: 50px; height: 28px; background: #333; border-radius: 25px; cursor: pointer; transition: 0.3s; }
+        .toggle-switch::after { content: ''; position: absolute; top: 4px; left: 4px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: 0.3s; }
         .toggle-switch.active { background: var(--primary); }
-        .toggle-switch.active::after { transform: translateX(20px); background: black; }
-        .admin-toggle-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; color: #ccc; font-size: 14px; }
+        .toggle-switch.active::after { transform: translateX(22px); }
+        .admin-item-edit { background: var(--bg-body); padding: 15px; border-radius: 12px; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; border: 1px solid #333; }
+        .edit-row { display: flex; gap: 10px; align-items: center; }
+        .input-mini { flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 13px; background: var(--bg-card); color: var(--text-main); font-family: 'Outfit', sans-serif; }
+        .del-btn { background: var(--accent); color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; }
+        .upload-btn { background: var(--secondary); color: white; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+        .input-v2 { width: 100%; padding: 16px; border-radius: 14px; border: 2px solid #333; background: var(--bg-body); font-size: 15px; outline: none; color: var(--text-main); font-weight: 500; margin-bottom: 10px; font-family: 'Outfit', sans-serif; }
+        .input-v2:focus { border-color: var(--primary); }
+        .btn-checkout { width: 100%; background: var(--veg-color); color: #000; padding: 16px; border: none; border-radius: 16px; font-weight: 800; font-size: 16px; display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 10px; box-shadow: 0 5px 15px rgba(46, 213, 115, 0.2); font-family: 'Outfit', sans-serif; }
+        
+        .admin-photo-item { width: 80px; height: 80px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid #333; background: #fff; flex-shrink: 0; }
+        .admin-photo-img { width: 100%; height: 100%; object-fit: cover; }
+        .admin-photo-del { position: absolute; top: 2px; right: 2px; background: rgba(255,0,0,0.9); color: white; border: none; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; font-weight: bold; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; }
+        .cat-btn { background: none; border: 1px solid var(--border-color); border-radius: 5px; padding: 4px 8px; font-size: 10px; font-weight: bold; cursor: pointer; color: var(--text-main); margin-left: 5px; }
 
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        .admin-footer { position: sticky; bottom: 0; background: var(--bg-card); padding: 15px 0; border-top: 1px solid var(--border-color); z-index: 100; margin-bottom: -20px; }
+
+        /* OVERLAYS */
+        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .bottom-sheet { background: var(--bg-card); width: 100%; border-radius: 30px 30px 0 0; padding: 30px 25px; max-height: 90vh; overflow-y: auto; position: absolute; bottom: 0; transform: translateY(100%); transition: 0.35s; display: flex; flex-direction: column; border-top: 1px solid var(--primary); }
+        .bottom-sheet.active { transform: translateY(0); }
+        .center-popup { background: var(--bg-card); width: 85%; max-width: 320px; border-radius: 20px; padding: 30px; text-align: center; transform: scale(0.9); opacity: 0; transition: 0.3s; border: 1px solid var(--primary); }
+        .center-popup.active { transform: scale(1); opacity: 1; }
+        
+        .admin-content { flex-grow: 1; overflow-y: auto; padding-bottom: 20px; }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop><source src="" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop autoplay>
+        <source src="background_music.mp3" type="audio/mpeg">
+    </audio>
+    <button class="music-pill" id="music-btn" onclick="toggleMusic()">
+        <i class="ri-music-2-fill"></i> <span>Music ON</span>
+    </button>
 
     <div class="brand-card">
-        <h1 class="main-header" onclick="handleSecretClick()">FLAVRZ</h1>
-        <div class="tagline">FRESH & FLAVOURFUL</div>
-        <div class="action-grid">
-            <button onclick="changeTheme()" class="glow-btn"><i class="ri-palette-line"></i> Change Theme</button>
-            <a href="#" class="glow-btn" onclick="shareMenu()"><i class="ri-share-forward-line"></i> Share Menu</a>
+        <h1 class="main-header">
+            <span class="letter l-1">F</span><span class="letter l-2">L</span><span class="letter l-3">A</span><span class="letter l-4">V</span><span class="letter l-5">R</span><span class="letter l-6">Z</span>
+        </h1>
+        <div class="tagline"><span class="tag-fresh">Fresh</span> & <span class="tag-flavor">Flavourful</span></div>
+        <div class="contact-grid" id="contact-grid-display"></div>
+        <a href="https://maps.app.goo.gl/yQqcstagK5N2UYeZA" target="_blank" class="map-btn"><i class="ri-map-pin-2-fill"></i> Locate Us on Map</a>
+        <div class="header-actions">
+            <a href="#" class="h-btn" onclick="shareMenu()"><i class="ri-share-forward-fill"></i> Share</a>
+            <a href="#" class="h-btn" onclick="writeReview()"><i class="ri-star-smile-fill"></i> Review</a>
+            <a href="https://chat.whatsapp.com/HpEoAinNJ5FGBJrPmbHb62" target="_blank" class="h-btn"><i class="ri-whatsapp-fill"></i> Group</a>
         </div>
-        <div id="contact-grid-display" style="display:flex; justify-content:center; gap:10px;"></div>
     </div>
 
     <div class="glass-header">
-        <div class="search-container">
-            <i class="ri-search-2-line" style="color:#888"></i>
-            <input type="text" id="menuSearch" placeholder="Search dishes..." onkeyup="filterMenu()">
+        <div class="brand-row">
+            <div class="logo" onclick="openAdminAuth()" style="font-size: 14px; opacity: 0.5; font-weight:800; font-family:'Outfit', sans-serif; cursor: default; letter-spacing: 1px; color:white;">MENU</div>
+            <div class="icon-btn" onclick="toggleTheme()" style="font-size: 20px; color:white;"><i class="ri-contrast-2-line"></i></div>
         </div>
-        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
-             <label style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa;">
-                <input type="checkbox" id="veg-toggle-cb" onchange="filterMenu()"> Veg Only
-            </label>
+        <div class="search-row" id="search-bar-container">
+            <div class="search-container">
+                <i class="ri-search-line" style="color:var(--text-light)"></i>
+                <input type="text" id="menuSearch" placeholder="Search dishes..." onkeyup="filterMenu()">
             </div>
+            <label class="veg-toggle-container">
+                <input type="checkbox" id="veg-toggle-cb" onchange="filterMenu()" style="display:none">
+                <div style="color:var(--veg-color); font-size:10px; font-weight:800; text-align:center;">VEG</div>
+                <div class="veg-switch"></div>
+            </label>
+        </div>
     </div>
 
-    <div id="offers-container" class="offers-banner" style="display:none">
-        <i class="ri-fire-fill"></i> <span id="offer-text-display"></span>
+    <div class="offers-banner" id="offers-container" style="display:none">
+        <div style="background:rgba(255,255,255,0.2); padding:8px; border-radius:50%;"><i class="ri-percent-line" style="font-size: 20px;"></i></div>
+        <div>
+            <div style="font-weight: 800; font-size: 14px; margin-bottom: 2px;">TODAY'S OFFER</div>
+            <div style="font-size: 13px; font-weight: 600;" id="offer-text-display"></div>
+        </div>
     </div>
 
-    <div id="hero-banner" class="hero-banner" style="display:none">
-        <h2>Welcome!</h2>
-        <p id="welcome-text-display"></p>
+    <div class="hero-banner" id="hero-banner">
+        <div>
+            <h2 style="font-weight: 800; color:var(--primary);">Sat Sri Akal! 🙏</h2>
+            <p id="welcome-text-display" style="font-weight: 300;"></p>
+        </div>
     </div>
 
-    <div id="gallery-section-container" style="display:none">
-        <div class="section-header">Our Team</div>
-        <div class="special-grid" id="team-gallery-scroll"></div>
+    <div class="gallery-section" id="gallery-section-container">
+        <div class="section-header">Jassi Pajji</div>
+        <div class="gallery-scroll" id="team-gallery-scroll"></div>
     </div>
 
-    <div id="special-section-container" style="display:none">
-        <div class="section-header">Chef's Specials</div>
+    <div class="special-section" id="special-section-container" style="display:none">
+        <div class="section-header">Today's Specials</div>
         <div class="special-grid" id="special-grid-display"></div>
     </div>
 
     <div class="cat-nav" id="cat-nav"></div>
-    <div id="menu-list" style="padding-bottom: 50px;"></div>
-
-    <div class="music-pill">
-        <div onclick="toggleMusic()" style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
-            <i class="ri-disc-line" id="music-icon" style="color:white"></i> 
-            <span style="font-size: 10px; color: white;">Music</span>
-        </div>
-        <input type="range" id="vol-control" min="0" max="1" step="0.1" value="0.5" style="width: 50px;" oninput="adjustVolume(this.value)">
-    </div>
+    <div id="menu-list"></div>
 
     <div class="cart-bar" id="cart-bar" onclick="showCart()">
         <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="background: black; color:var(--primary); width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px;" id="cart-count">0</div>
-            <div style="font-size: 14px;">VIEW CART</div>
+            <div style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 8px; font-weight: 700;" id="cart-count">0</div>
+            <div style="font-size: 14px; font-weight: 600;">View Cart</div>
         </div>
-        <div style="font-size: 18px;"><span id="cart-total">0</span></div>
+        <div style="font-size: 18px; font-weight: 800;">₹<span id="cart-total">0</span></div>
     </div>
 
-    <div class="overlay" id="cart-overlay">
+    <div class="overlay" id="cart-overlay" style="align-items: flex-end;">
         <div class="bottom-sheet" id="cart-sheet">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <h2 style="color:var(--primary);">CHECKOUT</h2>
-                <i class="ri-close-circle-fill" style="font-size: 28px; cursor: pointer;" onclick="hideCart()"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <h2 style="font-weight: 800; font-size: 24px; color: var(--primary);">Your Order</h2>
+                <div onclick="hideCart()" style="padding:10px;"><i class="ri-close-line" style="font-size:24px"></i></div>
             </div>
-            
-            <div style="overflow-y: auto; flex: 1;">
-                <div id="cart-items-list" style="margin-bottom: 20px;"></div>
-                
-                <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <div style="display:flex; justify-content:space-between; color:#aaa; font-size:14px;"><span>Subtotal</span><span id="summary-subtotal">0</span></div>
-                    <div style="display:flex; justify-content:space-between; color:var(--secondary); font-size:14px;"><span>Discount</span><span id="summary-discount">-0</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-top:10px; color:var(--primary);"><span>Total</span><span id="summary-total">0</span></div>
+            <div style="flex-grow: 1; overflow-y: auto;">
+                <div id="cart-items-list" style="margin-bottom: 25px;"></div>
+                <div style="background: var(--bg-body); padding: 15px; border-radius: 12px; margin-bottom: 20px; border:1px solid #333;">
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+                        <span style="color:var(--text-light)">Subtotal</span><span style="font-weight:600;" id="summary-subtotal">₹0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px;">
+                        <span style="color:var(--text-light)">Discount</span><span style="font-weight:600; color: var(--veg-color);" id="summary-discount">-₹0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 20px; border-top: 1px dashed #333; padding-top: 10px; margin-top: 10px;">
+                        <span>To Pay</span> <span id="summary-total" style="color: var(--primary);">₹0</span>
+                    </div>
                 </div>
-
-                <div style="margin-bottom: 15px;">
+                <div style="text-align:center; background:rgba(0, 242, 255, 0.05); padding:10px; border-radius:10px; margin-bottom:15px; border:1px solid rgba(0, 242, 255, 0.2)">
+                     <div style="font-weight:800; font-size:12px; margin-bottom:5px; color:var(--primary);">SCAN QR TO PAY</div>
+                     <img id="cart-qr-img" src="" style="width:150px; height:150px; object-fit:contain; display:none; margin:0 auto; border:2px solid white; border-radius:10px;">
+                     
+                     <button onclick="copyUPI()" style="background:var(--text-main); color:var(--bg-card); border:none; padding:10px; border-radius:8px; font-weight:700; width:100%; margin-top:10px; display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <i class="ri-file-copy-line"></i> Copy UPI ID
+                     </button>
+                     <button id="pay-upi-btn" style="background:var(--secondary); color:white; width:100%; padding:10px; border:none; border-radius:8px; font-weight:700; margin-top:8px;">
+                        Pay via UPI App
+                     </button>
+                     
+                     <p style="font-size:10px; margin-top:8px; font-weight:600; color:var(--text-light); opacity:0.8;">
+                        QR Scan nahi ho raha? UPI ID Copy karke pay karein.<br>
+                        (Can't Scan? Copy UPI ID & Pay)
+                     </p>
+                </div>
+                <div style="margin-bottom: 20px;">
                     <input type="text" class="input-v2" id="cust-name" placeholder="Your Name">
                     <input type="tel" class="input-v2" id="cust-phone" placeholder="WhatsApp Number">
-                    
-                    <select class="input-v2" id="cust-society" onchange="toggleOtherSociety(this)">
-                        <option value="" disabled selected>Select Society (VIP Road)</option>
-                        <option value="Savitry Greens">Savitry Greens</option>
-                        <option value="Motiaz Royal Citi">Motiaz Royal Citi</option>
-                        <option value="Maya Garden">Maya Garden</option>
-                        <option value="VIP Enclave">VIP Enclave</option>
-                        <option value="Other">Other (Type Below)</option>
-                    </select>
-                    <input type="text" class="input-v2" id="cust-other-society" placeholder="Enter Society Name" style="display: none;">
-                    
-                    <input type="text" class="input-v2" id="cust-flat" placeholder="Flat / Tower No.">
-                    
-                    <button onclick="getLocation()" style="width:100%; padding:12px; background:#333; color:var(--primary); border:1px solid var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px;">
-                        <i class="ri-map-pin-user-fill"></i> Share Current Location
-                    </button>
-                    <input type="hidden" id="cust-location-url">
-
-                    <textarea class="input-v2" id="cust-note" placeholder="Khana kaisa banana hai? (Jaise: Thoda teekha, Normal, Namak kamm...)" style="height: 80px; resize: none;"></textarea>
+                    <textarea class="input-v2" id="cust-addr" placeholder="Full Address" style="height: 60px; resize: none;"></textarea>
+                    <textarea class="input-v2" id="cust-note" placeholder="Cooking Note (Optional)" style="height: 50px; resize: none;"></textarea>
                 </div>
             </div>
-            <button class="btn-checkout" onclick="whatsappCheckout()">ORDER ON WHATSAPP</button>
+            <button class="btn-checkout" onclick="whatsappCheckout()"><i class="ri-whatsapp-fill" style="font-size: 22px;"></i> Send Order</button>
         </div>
     </div>
 
-    <div class="overlay" id="auth-overlay" style="align-items: center; justify-content: center;">
-        <div style="background: #222; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid var(--primary); width: 80%;">
-            <h3 style="color:var(--primary); margin-bottom: 15px;">ADMIN ACCESS</h3>
-            <p style="font-size:12px; color:#888; margin-bottom:10px;">Enter PIN</p>
-            <input type="password" id="admin-pass-input" class="input-v2" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size:20px;">
-            <button onclick="checkAdminPass()" style="background:var(--primary); color:black; padding:10px 20px; border:none; border-radius:5px; font-weight:bold; margin-top:10px; width:100%;">UNLOCK</button>
-            <div onclick="document.getElementById('auth-overlay').style.display='none'" style="margin-top:15px; color:#888; font-size:12px; cursor:pointer;">Cancel</div>
+    <div class="overlay" id="auth-overlay">
+        <div class="center-popup" id="auth-popup">
+            <h2 style="margin-bottom: 15px; color:var(--primary);">Admin Login</h2>
+            <p style="margin-bottom: 20px; font-size: 14px; color: var(--text-light);">Enter PIN (212282)</p>
+            <input type="password" id="admin-pass-input" class="input-v2" placeholder="••••••" maxlength="6" style="text-align:center; letter-spacing:10px;">
+            <button class="btn-checkout" onclick="checkAdminPass()" style="background:var(--primary); color:#000;">Access Panel</button>
+            <div style="margin-top: 15px; font-size: 13px; text-decoration: underline; cursor: pointer; color:var(--text-light);" onclick="closeAuth()">Cancel</div>
         </div>
     </div>
 
     <div class="overlay" id="admin-overlay" style="align-items: flex-end;">
         <div class="bottom-sheet" id="admin-sheet">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
-                <h2 style="color:var(--primary);">ADMIN PANEL</h2>
-                <i class="ri-close-line" style="font-size: 28px;" onclick="document.getElementById('admin-overlay').style.display='none'"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="font-weight: 800; color:var(--primary);">Admin Panel</h2>
+                <div onclick="closeAdminPanel()" style="padding:10px"><i class="ri-close-line" style="font-size:24px"></i></div>
             </div>
-            <div style="overflow-y: auto; padding-bottom: 20px;">
-                <h4 style="color:var(--primary); margin-bottom:10px;">Visibility Settings</h4>
-                <div class="admin-toggle-row" onclick="toggleSetting('showSearch')"><span>Search Bar</span><div class="toggle-switch" id="toggle-search"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showWelcome')"><span>Welcome Banner</span><div class="toggle-switch" id="toggle-welcome"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showOffers')"><span>Offers Banner</span><div class="toggle-switch" id="toggle-offers"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showSpecial')"><span>Special Section</span><div class="toggle-switch" id="toggle-special"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showGallery')"><span>Team Section</span><div class="toggle-switch" id="toggle-gallery"></div></div>
+            
+            <div class="admin-content">
+                <div style="font-weight:800; font-size:12px; color:var(--text-light); margin-bottom:10px;">STORE SETTINGS</div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showSearch')"><span style="font-weight: 600;">Show Search Bar</span><div class="toggle-switch" id="toggle-search"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showWelcome')"><span style="font-weight: 600;">Show Welcome Banner</span><div class="toggle-switch" id="toggle-welcome"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showOffers')"><span style="font-weight: 600;">Show Offers</span><div class="toggle-switch" id="toggle-offers"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showSpecial')"><span style="font-weight: 600;">Show Specials</span><div class="toggle-switch" id="toggle-special"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showGallery')"><span style="font-weight: 600;">Show Jassi Pajji</span><div class="toggle-switch" id="toggle-gallery"></div></div>
 
-                <h4 style="color:var(--primary); margin:20px 0 10px;">Media & Links</h4>
+                <input type="text" id="admin-music-url" class="input-v2" placeholder="Music URL (.mp3)">
                 <input type="text" id="admin-upi-id" class="input-v2" placeholder="UPI ID">
-                <input type="text" id="admin-music-url" class="input-v2" placeholder="Music URL (MP3)">
-                <input type="text" id="admin-qr-url" class="input-v2" placeholder="QR Image URL">
+                <button onclick="document.getElementById('qr-upload-btn').click()" style="width:100%; padding:10px; background:#333; color:white; border:1px solid #444; border-radius:10px; font-weight:700; margin-bottom:15px;">Upload QR Code</button>
+                <input type="file" id="qr-upload-btn" hidden onchange="uploadQRImage(this)">
+                <img id="admin-qr-preview" src="" style="width:50px; display:none; margin-bottom:10px;">
+
+                <div style="border-top:1px solid #333; margin:15px 0;"></div>
                 
-                <h4 style="color:var(--primary); margin:20px 0 10px;">Texts</h4>
+                <button onclick="addNewSpecial()" style="background:var(--secondary); color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; font-size:12px; margin-bottom:15px;">+ Add Special Item</button>
+                <div id="admin-specials-list"></div>
+
+                <div style="border-top:1px solid #333; margin:15px 0;"></div>
+                <div style="font-weight:800; font-size:12px; margin-bottom:10px; color:var(--text-light);">JASSI PAJJI PHOTOS</div>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <button onclick="document.getElementById('team-upload-btn').click()" style="flex:1; padding:10px; background:var(--primary); color:#000; border:none; border-radius:8px; font-weight:800;">Upload Photo</button>
+                    <input type="file" id="team-upload-btn" hidden onchange="handleTeamUpload(this)">
+                </div>
+                <div id="admin-gallery-list" class="admin-gallery-grid" style="display:flex; gap:10px; overflow-x:auto;"></div>
+
+                <div style="border-top:1px solid #333; margin:15px 0;"></div>
                 <textarea id="edit-welcome-text" class="input-v2" placeholder="Welcome Text"></textarea>
                 <input type="text" id="edit-offer-text" class="input-v2" placeholder="Offer Text">
+                
+                <div id="admin-menu-editor"></div>
+                <button onclick="addNewCategory()" class="btn-checkout" style="background:#333; border:1px solid #444; color:white; margin-bottom:10px;">+ Add New Category</button>
+            </div>
 
-                <button onclick="saveAdminSettings()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">SAVE SETTINGS</button>
-                <button onclick="factoryReset()" style="width:100%; background:#ff3b30; color:white; padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">FACTORY RESET (FIX MENU)</button>
+            <div class="admin-footer">
+                <button class="btn-checkout" onclick="saveAdminSettings()" style="background:var(--primary); color:#000;">Save All Changes</button>
+                <button class="btn-checkout" style="background:var(--accent); color:white; margin-top:10px;" onclick="factoryReset()">Factory Reset</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DATA DEFAULTS (JASSI PAJJI MENU) ---
-        const DEFAULT_MENU = {
+        const config = { phone: "916230146463" }; 
+        const defaultMenu = {
             "Momos & Spring Rolls": [
                 { name: "Veg Momos (Steamed)", price: 60, type: "veg", desc: "10 pieces of juicy steamed vegetable momos.", img: "images/veg-momos.jpg" },
                 { name: "Paneer Momos", price: 80, type: "veg", desc: "Steamed momos filled with fresh paneer.", img: "images/paneer-momos.jpg" },
@@ -244,7 +360,7 @@
                 { name: "Rice + Manchurian", price: 99, type: "veg", desc: "Veg Fried Rice served with Veg Manchurian.", img: "images/rice-manchurian.jpg" },
                 { name: "Chowmein + Manchurian", price: 99, type: "veg", desc: "Veg Chowmein served with Veg Manchurian.", img: "images/noodle-manchurian.jpg" },
                 { name: "Rice/Noodle + Chilli Cheese", price: 120, type: "veg", desc: "Fried Rice or Chowmein with spicy Chilli Cheese Gravy.", img: "images/chinese-combo-veg.jpg" },
-                { name: "Rice/Noodle + Chilli Chicken", price: 120, type: "non-veg", desc: "Fried Rice or Chowmein with Chilli Chicken Gravy.", img: "images/chinese-combo-nonveg.jpg" }
+                { name: "Rice/Noodle + Chilli Chicken", price: 120, type: "non-veg", desc: "Fried Rice or Chowmein with Chilli Chicken Gravy (4 Pieces included).", img: "images/chinese-combo-nonveg.jpg" }
             ],
             "Chinese": [
                 { name: "Veg Fried Rice", price: 80, type: "veg", desc: "Wok-tossed rice with fresh veggies.", img: "images/veg-fried-rice.jpg" },
@@ -310,289 +426,494 @@
             ]
         };
 
-        const config = { phone: "916230146463", pin: "212282" }; 
-        
-        let settings = JSON.parse(localStorage.getItem('flavrz_settings')) || {
-            showSearch: true, showWelcome: true, showOffers: true, showSpecial: true, showGallery: true,
-            welcomeText: "I am your <strong>Jassi Pajji</strong>. Running National Food Court earlier, now served with new love as <strong>FLAVRZ</strong>.", 
-            offerText: "Flat 10% OFF on Chinese (Above 300)",
-            upiId: "", musicUrl: "", qrCode: "",
-            contactNumbers: ["9816972000", "6230146463"]
+        let settings = JSON.parse(localStorage.getItem('flavrzSettingsV23')) || {
+            showSearch: true, showWelcome: true, showReviews: true, showOffers: true, showSpecial: true, showGallery: true,
+            welcomeText: "I am your <strong>Jassi Pajji</strong>. Running National Food Court earlier, now served with new love as <strong>FLAVRZ</strong>.",
+            offerText: "Flat 10% OFF on Chinese (Above ₹300)",
+            discountPercent: 10, minOrderVal: 300,
+            upiId: "", qrCode: "",
+            musicUrl: "background_music.mp3",
+            specialItems: [
+                { title: "Chilli Chicken", price: 180, type: "non-veg", desc: "Tender chicken in hot chilli sauce.", img: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=60" },
+                { title: "Butter Chicken", price: 180, type: "non-veg", desc: "Creamy rich tomato gravy.", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=600&auto=format&fit=crop&q=60" }
+            ],
+            contactNumbers: ["9816972000", "6230146463"],
+            teamPhotos: [
+                "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+            ]
         };
         
-        // Force load default menu if empty
-        let menu = JSON.parse(localStorage.getItem('flavrz_menu'));
-        if (!menu || !menu["Momos & Spring Rolls"]) {
-            menu = DEFAULT_MENU;
-            localStorage.setItem('flavrz_menu', JSON.stringify(menu));
-        }
+        if(!settings.teamPhotos) settings.teamPhotos = [];
+        if(!settings.contactNumbers) settings.contactNumbers = ["9816972000", "6230146463"];
 
+        let activeMenu = JSON.parse(localStorage.getItem('flavrzMenuV23')) || JSON.parse(JSON.stringify(defaultMenu));
+        let menuStock = JSON.parse(localStorage.getItem('flavrzStockV23')) || {}; 
         let cart = [];
-        let adminTapCount = 0;
-        let themes = ['neon-yellow', 'neon-blue', 'neon-red'];
-        let currentThemeIdx = 0;
+        let isMusicPlaying = false;
 
-        // --- INIT ---
-        function init() {
-            renderUI();
-            renderMenu();
-            initMusic();
+        function init() { 
+            try {
+                renderUI(); 
+                renderMenu(); 
+                renderContacts();
+                setupPaymentUI();
+                initMusic();
+            } catch(e) { console.error(e); }
         }
 
-        // --- THEME ---
-        function changeTheme() {
-            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
-            document.documentElement.setAttribute('data-theme', themes[currentThemeIdx]);
-        }
-
-        // --- ADMIN ACCESS (5 TAPS) ---
-        function handleSecretClick() {
-            adminTapCount++;
-            if(adminTapCount >= 5) {
-                adminTapCount = 0;
-                document.getElementById('auth-overlay').style.display = 'flex';
-                document.getElementById('admin-pass-input').value = "";
-                document.getElementById('admin-pass-input').focus();
-            }
-            setTimeout(() => adminTapCount = 0, 2000);
-        }
-
-        function checkAdminPass() {
-            if(document.getElementById('admin-pass-input').value === config.pin) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                openAdminPanel();
-            } else { alert("Wrong PIN"); }
-        }
-
-        function openAdminPanel() {
-            document.getElementById('admin-overlay').style.display = 'flex';
-            ['search','welcome','offers','special','gallery'].forEach(k => {
-                const isActive = settings['show'+k.charAt(0).toUpperCase()+k.slice(1)];
-                document.getElementById(`toggle-${k}`).className = `toggle-switch ${isActive ? 'active' : ''}`;
-            });
-            document.getElementById('admin-upi-id').value = settings.upiId || "";
-            document.getElementById('admin-music-url').value = settings.musicUrl || "";
-            document.getElementById('admin-qr-url').value = settings.qrCode || "";
-            document.getElementById('edit-welcome-text').value = settings.welcomeText;
-            document.getElementById('edit-offer-text').value = settings.offerText;
-        }
-
-        function toggleSetting(key) {
-            let fullKey = 'show'+key.charAt(0).toUpperCase()+key.slice(1); 
-            settings[fullKey] = !settings[fullKey];
-            document.getElementById(`toggle-${key}`).classList.toggle('active');
-        }
-
-        function saveAdminSettings() {
-            settings.upiId = document.getElementById('admin-upi-id').value;
-            settings.musicUrl = document.getElementById('admin-music-url').value;
-            settings.qrCode = document.getElementById('admin-qr-url').value;
-            settings.welcomeText = document.getElementById('edit-welcome-text').value;
-            settings.offerText = document.getElementById('edit-offer-text').value;
-            
-            localStorage.setItem('flavrz_settings', JSON.stringify(settings));
-            alert("Settings Saved!");
-            location.reload();
-        }
-
-        function factoryReset() {
-            if(confirm("Caution: This will reset the menu to Jassi Pajji's Default Menu. Continue?")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-
-        // --- UI RENDERING ---
-        function renderUI() {
-            document.getElementById('hero-banner').style.display = settings.showWelcome ? 'block' : 'none';
-            document.getElementById('offers-container').style.display = settings.showOffers ? 'flex' : 'none';
-            document.getElementById('special-section-container').style.display = settings.showSpecial ? 'block' : 'none';
-            document.getElementById('gallery-section-container').style.display = settings.showGallery ? 'block' : 'none';
-            
-            document.getElementById('welcome-text-display').innerHTML = settings.welcomeText;
-            document.getElementById('offer-text-display').innerText = settings.offerText;
-            
-            const contactDiv = document.getElementById('contact-grid-display');
-            contactDiv.innerHTML = settings.contactNumbers.map(n => 
-                `<a href="tel:${n}" class="glow-btn"><i class="ri-phone-fill"></i> ${n}</a>`
-            ).join('');
-        }
-
-        function renderMenu() {
-            const list = document.getElementById('menu-list');
-            const nav = document.getElementById('cat-nav');
-            list.innerHTML = ""; nav.innerHTML = "";
-
-            if(!menu || Object.keys(menu).length === 0) {
-                 list.innerHTML = "<div style='text-align:center; padding:20px; color:#666;'>No items. Use Factory Reset.</div>";
-                 return;
-            }
-
-            Object.entries(menu).forEach(([cat, items]) => {
-                nav.innerHTML += `<div class="chip" onclick="document.getElementById('cat-${cat}').scrollIntoView()">${cat}</div>`;
-                
-                let itemsHtml = items.map((item, idx) => {
-                    const qty = cart.find(x => x.name === item.name)?.qty || 0;
-                    return `
-                    <div class="food-card-grid">
-                        <div style="width:90px; height:90px; background:#222; border-radius:8px;">
-                            <img src="${item.img || 'https://via.placeholder.com/90?text=Food'}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" onerror="this.src='https://via.placeholder.com/90?text=Food'">
-                        </div>
-                        <div style="flex:1;">
-                            <div class="food-title-grid">${item.name}</div>
-                            <div style="font-size:10px; color:${item.type==='veg'?'#00E676':'#FF0055'}; margin-bottom:5px;">â— ${item.type.toUpperCase()}</div>
-                            <div class="food-price-grid">${item.price}</div>
-                            <div style="color:#888; font-size:11px; line-height:1.2;">${item.desc || ''}</div>
-                        </div>
-                        ${qty > 0 ? 
-                        `<div class="qty-group"><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, -1)">-</button><span class="qty-val">${qty}</span><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, 1)">+</button></div>` :
-                        `<button class="add-btn" onclick="updateCart('${cat}', ${idx}, 1)">ADD</button>`}
-                    </div>`;
-                }).join('');
-
-                list.innerHTML += `<div id="cat-${cat}" class="section-header">${cat}</div><div>${itemsHtml}</div>`;
-            });
-        }
-
-        function filterMenu() {
-            const term = document.getElementById('menuSearch').value.toLowerCase();
-            const vegOnly = document.getElementById('veg-toggle-cb').checked;
-            
-            document.querySelectorAll('.food-card-grid').forEach(card => {
-                const name = card.querySelector('.food-title-grid').innerText.toLowerCase();
-                const typeText = card.querySelector('.food-title-grid').nextElementSibling.innerText.toLowerCase();
-                const isVeg = typeText.includes('veg') && !typeText.includes('non');
-                
-                let visible = name.includes(term);
-                if(vegOnly && !isVeg) visible = false;
-                
-                card.style.display = visible ? 'flex' : 'none';
-            });
-        }
-
-        // --- CART LOGIC ---
-        function updateCart(cat, idx, change) {
-            const item = menu[cat][idx];
-            let existing = cart.find(x => x.name === item.name);
-            
-            if(existing) {
-                existing.qty += change;
-                if(existing.qty <= 0) cart = cart.filter(x => x.name !== item.name);
-            } else if(change > 0) {
-                cart.push({ ...item, qty: 1 });
-            }
-            updateCartUI();
-            renderMenu(); 
-        }
-
-        function updateCartUI() {
-            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            
-            const bar = document.getElementById('cart-bar');
-            bar.style.display = count > 0 ? 'flex' : 'none';
-            document.getElementById('cart-count').innerText = count;
-            // FIXED: Only number
-            document.getElementById('cart-total').innerHTML = total;
-        }
-
-        function showCart() {
-            document.getElementById('cart-overlay').style.display = 'flex';
-            const list = document.getElementById('cart-items-list');
-            list.innerHTML = cart.map(i => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px;">
-                    <div><div style="color:white; font-weight:bold;">${i.name}</div><div style="color:var(--primary); font-size:12px;">${i.price}</div></div>
-                    <div style="color:white; font-weight:bold;">x${i.qty}</div>
-                </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            // FIXED: Only numbers
-            document.getElementById('summary-subtotal').innerHTML = total;
-            document.getElementById('summary-total').innerHTML = total;
-        }
-
-        function hideCart() { document.getElementById('cart-overlay').style.display = 'none'; }
-
-        // --- CHECKOUT LOGIC ---
-        function toggleOtherSociety(select) {
-            const otherInput = document.getElementById('cust-other-society');
-            otherInput.style.display = select.value === "Other" ? "block" : "none";
-        }
-
-        function getLocation() {
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    const link = `http://googleusercontent.com/maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                    document.getElementById('cust-location-url').value = link;
-                    alert("Location Captured! ðŸ“");
-                }, () => alert("Location Access Denied"));
-            } else alert("Geolocation not supported");
-        }
-
-        function whatsappCheckout() {
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            let society = document.getElementById('cust-society').value;
-            if(society === "Other") society = document.getElementById('cust-other-society').value;
-            const flat = document.getElementById('cust-flat').value;
-            const loc = document.getElementById('cust-location-url').value;
-            const note = document.getElementById('cust-note').value; 
-            
-            if(!name || !society || !flat) return alert("Please fill Name, Address & Flat No.");
-
-            let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
-            msg += `ðŸ‘¤ *Name:* ${name}%0AðŸ“ž *Phone:* ${phone}%0AðŸ  *Addr:* ${flat}, ${society}%0A`;
-            if(loc) msg += `ðŸ“ *Loc:* ${loc}%0A`;
-            if(note) msg += `ðŸ“ *Note:* ${note}%0A`;
-
-            msg += `%0A*ITEMS:*%0A`;
-            // FIXED: Removed symbol from WA message too
-            cart.forEach(i => msg += `â€¢ ${i.name} x${i.qty} - ${i.price*i.qty}%0A`);
-            msg += `%0A*TOTAL: ${document.getElementById('cart-total').innerText}*`;
-            
-            window.open(`https://wa.me/${config.phone}?text=${msg}`);
-        }
-
-        // --- MUSIC ---
         function initMusic() {
             const audio = document.getElementById('bg-music');
-            if(settings.musicUrl) {
-                audio.src = settings.musicUrl;
-                audio.volume = 0; 
+            const btn = document.getElementById('music-btn');
+            if(settings.musicUrl) audio.src = settings.musicUrl;
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    isMusicPlaying = true;
+                    btn.classList.add('playing');
+                    btn.innerHTML = '<i class="ri-music-2-fill"></i> <span>Music ON</span>';
+                }).catch(error => {
+                    btn.innerHTML = '<i class="ri-play-circle-line"></i> <span>Tap Music</span>';
+                    document.body.addEventListener('click', function() { if(!isMusicPlaying) toggleMusic(); }, { once: true });
+                });
             }
         }
 
         function toggleMusic() {
             const audio = document.getElementById('bg-music');
-            const icon = document.getElementById('music-icon');
-            if(audio.paused) {
-                audio.play();
-                icon.className = "ri-pause-circle-line";
-                let vol = 0;
-                let fade = setInterval(() => {
-                    if(vol < document.getElementById('vol-control').value) {
-                        vol += 0.05;
-                        audio.volume = Math.min(vol, 1);
-                    } else clearInterval(fade);
-                }, 200);
+            const btn = document.getElementById('music-btn');
+            if (isMusicPlaying) { audio.pause(); btn.classList.remove('playing'); btn.innerHTML = '<i class="ri-volume-mute-fill"></i> <span>Music OFF</span>'; } 
+            else { audio.play(); btn.classList.add('playing'); btn.innerHTML = '<i class="ri-music-2-fill"></i> <span>Music ON</span>'; }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        function renderContacts() {
+            const grid = document.getElementById('contact-grid-display'); grid.innerHTML = '';
+            if(settings.contactNumbers) {
+                settings.contactNumbers.forEach(num => {
+                    grid.innerHTML += `<button onclick="location.href='tel:${num}'" class="call-btn"><i class="ri-phone-fill"></i> <span>${num}</span></button>`;
+                });
+            }
+        }
+
+        function setupPaymentUI() {
+            const qrImg = document.getElementById('cart-qr-img');
+            const payBtn = document.getElementById('pay-upi-btn');
+            if(settings.qrCode) { qrImg.src = settings.qrCode; qrImg.style.display = 'block'; } else { qrImg.style.display = 'none'; }
+            payBtn.onclick = () => {
+                if(!settings.upiId) return alert("Admin hasn't set UPI ID. Scan QR.");
+                window.location.href = `upi://pay?pa=${settings.upiId}&pn=FLAVRZ&am=${document.getElementById('summary-total').innerText.replace('₹', '')}&cu=INR`;
+            };
+        }
+
+        function copyUPI() {
+            if(!settings.upiId) return alert("No UPI ID Set!");
+            navigator.clipboard.writeText(settings.upiId).then(() => alert("UPI ID Copied!"));
+        }
+
+        function renderUI() {
+            ['search','welcome','offers','special','gallery'].forEach(k => {
+                const el = document.getElementById(k === 'search' ? 'search-bar-container' : k === 'offers' ? 'offers-container' : k+'-section-container');
+                if(el) el.style.display = settings['show'+k.charAt(0).toUpperCase()+k.slice(1)] ? (k==='search'?'flex':'block') : 'none';
+            });
+            document.getElementById('welcome-text-display').innerHTML = settings.welcomeText;
+            document.getElementById('offer-text-display').innerText = settings.offerText;
+            renderSpecials(); renderGallery();
+        }
+
+        function renderSpecials() {
+            const grid = document.getElementById('special-grid-display'); grid.innerHTML = '';
+            settings.specialItems.forEach(item => {
+                // ADDED: data-type attribute for filtering
+                grid.innerHTML += `
+                <div class="special-card" data-type="${item.type || 'veg'}">
+                    <div class="special-badge">MUST TRY</div>
+                    <img src="${item.img}" class="special-img" onerror="this.src='https://via.placeholder.com/150'">
+                    <div class="food-details-grid">
+                        <div class="food-title-grid">${item.title}</div>
+                        <span style="font-weight:800; color:var(--primary)">₹${item.price}</span>
+                        <button class="add-btn-small" onclick="addSpecialToCart('${item.title}', ${item.price})">ADD +</button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function renderGallery() {
+            const scroll = document.getElementById('team-gallery-scroll'); scroll.innerHTML = '';
+            // Only show the FIRST photo in the horizontal scroll list for public view (Jassi Pajji specific)
+            if(settings.teamPhotos && settings.teamPhotos.length > 0 && settings.showGallery) {
+                // Show only the first one as "Jassi Pajji" avatar
+                scroll.innerHTML += `<div class="gallery-card"><img src="${settings.teamPhotos[0]}" class="gallery-img" onclick="window.open('${settings.teamPhotos[0]}')" loading="lazy"></div>`;
+            } else if (settings.showGallery) {
+                // Placeholder
+                scroll.innerHTML += `<div class="gallery-card"><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="gallery-img"></div>`;
+            }
+        }
+
+        function getStock(name) { return menuStock[name] !== undefined ? menuStock[name] : 50; }
+
+        function renderMenu() {
+            const list = document.getElementById('menu-list');
+            const nav = document.getElementById('cat-nav');
+            list.innerHTML = ''; nav.innerHTML = '';
+
+            Object.entries(activeMenu).forEach(([cat, items]) => {
+                nav.innerHTML += `<div class="chip" onclick="scrollToCat('${cat}', this)">${cat}</div>`;
+                const section = document.createElement('div');
+                section.className = 'menu-section';
+                section.id = `cat-${cat}`;
+                section.innerHTML = `<div class="section-header">${cat}</div>`;
+                
+                const grid = document.createElement('div');
+                grid.className = 'menu-grid-container';
+
+                items.forEach((item) => {
+                    if (item.hidden) return; // HIDE FROM PUBLIC IF HIDDEN
+
+                    const currentStock = getStock(item.name);
+                    const isSoldOut = currentStock <= 0;
+                    const qty = getCartQty(item.name);
+                    
+                    let btnHtml = qty > 0 ? 
+                        `<div class="qty-group"><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, -1)">-</button><span class="qty-val">${qty}</span><button class="qty-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">+</button></div>` : 
+                        `<button class="add-btn" onclick="updateItemQty('${item.name}', ${item.price}, 1)">ADD</button>`;
+
+                    const card = document.createElement('div');
+                    card.className = `food-card-grid ${isSoldOut ? 'out-of-stock' : ''}`;
+                    card.innerHTML = `
+                        <div style="position:relative;">
+                            <img src="${item.img}" class="food-img-grid" loading="lazy">
+                            <div class="type-badge ${item.type === 'veg' ? 'veg-bg' : 'nonveg-bg'}"></div>
+                            ${!isSoldOut && currentStock < 10 ? `<div style="position:absolute; bottom:0; width:100%; background:rgba(255,0,85,0.9); color:white; font-size:9px; text-align:center;">Only ${currentStock} left</div>` : ''}
+                        </div>
+                        <div class="food-details-grid">
+                            <div class="food-title-grid">${item.name}</div>
+                            <div class="food-desc-grid">${item.desc}</div>
+                            <div class="food-price-grid">₹${item.price}</div>
+                            <div id="btn-${getId(item.name)}" style="margin-top:auto">${btnHtml}</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+                section.appendChild(grid);
+                list.appendChild(section);
+            });
+            if(nav.firstChild) nav.firstChild.classList.add('active');
+        }
+
+        function filterMenu() {
+            const q = document.getElementById('menuSearch').value.toLowerCase();
+            const vegOnly = document.getElementById('veg-toggle-cb').checked;
+            
+            // Filter Main Menu Items
+            document.querySelectorAll('.food-card-grid').forEach(c => {
+                const name = c.querySelector('.food-title-grid').innerText.toLowerCase();
+                const typeInfo = c.querySelector('.type-badge').classList.contains('veg-bg') ? 'veg' : 'non-veg';
+                c.style.display = (name.includes(q) && (!vegOnly || typeInfo === 'veg')) ? 'flex' : 'none';
+            });
+
+            // FIXED: Filter Special Items as well
+            document.querySelectorAll('.special-card').forEach(c => {
+                const name = c.querySelector('.food-title-grid').innerText.toLowerCase();
+                // Check the data-type attribute we added
+                const type = c.getAttribute('data-type') || 'veg'; 
+                c.style.display = (name.includes(q) && (!vegOnly || type === 'veg')) ? 'block' : 'none';
+            });
+        }
+
+        function getId(name) { return name.replace(/[^a-zA-Z0-9]/g, ''); }
+        function getCartQty(name) { const item = cart.find(i => i.name === name); return item ? item.qty : 0; }
+        
+        function updateItemQty(name, price, delta) {
+            const currentStock = getStock(name);
+            const currentCartQty = getCartQty(name);
+            if (delta > 0 && currentCartQty >= currentStock) return alert(`Sorry, only ${currentStock} available!`);
+
+            const exists = cart.find(i => i.name === name);
+            if(exists) { exists.qty += delta; if(exists.qty <= 0) cart = cart.filter(i => i.name !== name); } 
+            else if(delta > 0) { cart.push({name, price, qty: 1}); }
+            
+            const btn = document.getElementById(`btn-${getId(name)}`);
+            if(btn) {
+                const newQty = getCartQty(name);
+                btn.innerHTML = newQty > 0 ? 
+                    `<div class="qty-group"><button class="qty-btn" onclick="updateItemQty('${name}', ${price}, -1)">-</button><span class="qty-val">${newQty}</span><button class="qty-btn" onclick="updateItemQty('${name}', ${price}, 1)">+</button></div>` : 
+                    `<button class="add-btn" onclick="updateItemQty('${name}', ${price}, 1)">ADD</button>`;
+            }
+            updateCartBar(); renderCartList();
+            if(navigator.vibrate) navigator.vibrate(50);
+        }
+
+        function addSpecialToCart(title, price) { updateItemQty(title, price, 1); showCart(); }
+        function isChineseItem(name) { return activeMenu["Chinese"]?.some(item => item.name === name); }
+        
+        function updateCartBar() {
+            let subtotal = 0, discountable = 0, count = 0;
+            cart.forEach(i => { const t = i.price*i.qty; subtotal += t; count += i.qty; if(isChineseItem(i.name)) discountable += t; });
+            const discount = discountable > settings.minOrderVal ? Math.round(discountable * (settings.discountPercent/100)) : 0;
+            const bar = document.getElementById('cart-bar');
+            if(count > 0) { bar.style.display = 'flex'; document.getElementById('cart-count').innerText = count; document.getElementById('cart-total').innerText = subtotal - discount; } else { bar.style.display = 'none'; }
+        }
+
+        function showCart() { document.getElementById('cart-overlay').style.display = 'flex'; setTimeout(() => document.getElementById('cart-sheet').classList.add('active'), 10); renderCartList(); }
+        function hideCart() { document.getElementById('cart-sheet').classList.remove('active'); setTimeout(() => document.getElementById('cart-overlay').style.display = 'none', 300); }
+        
+        function renderCartList() {
+            const box = document.getElementById('cart-items-list'); box.innerHTML = '';
+            let subtotal = 0, discountable = 0;
+            cart.forEach((item) => {
+                const t = item.price * item.qty; subtotal += t; if(isChineseItem(item.name)) discountable += t;
+                box.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; align-items:center;"><div><div style="font-weight:700;">${item.name}</div><div style="font-size:13px; color:var(--text-light)">₹${item.price}</div></div><div style="display:flex; align-items:center; gap:12px; background:var(--bg-body); padding:5px 10px; border-radius:8px; border:1px solid #333;"><i class="ri-subtract-line" onclick="updateItemQty('${item.name}', ${item.price}, -1)"></i><span style="font-weight:700;">${item.qty}</span><i class="ri-add-line" onclick="updateItemQty('${item.name}', ${item.price}, 1)"></i></div></div>`;
+            });
+            const discount = discountable > settings.minOrderVal ? Math.round(discountable * (settings.discountPercent/100)) : 0;
+            document.getElementById('summary-subtotal').innerText = `₹${subtotal}`;
+            document.getElementById('summary-discount').innerText = `-₹${discount}`;
+            document.getElementById('summary-total').innerText = `₹${subtotal - discount}`;
+        }
+
+        function whatsappCheckout() {
+            const name = document.getElementById('cust-name').value, addr = document.getElementById('cust-addr').value;
+            if(!name || !addr) return alert("Please enter Name & Address");
+            cart.forEach(c => { if(menuStock[c.name]) menuStock[c.name] = Math.max(0, menuStock[c.name] - c.qty); });
+            localStorage.setItem('flavrzStockV23', JSON.stringify(menuStock));
+            let msg = `*ORDER - FLAVRZ*%0A------------------%0A`;
+            cart.forEach(i => msg += `• ${i.name} x ${i.qty}%0A`);
+            msg += `------------------%0A*Total: ${document.getElementById('summary-total').innerText}*%0A%0A*Customer:* ${name}%0A${addr}%0A${document.getElementById('cust-note').value}`;
+            setTimeout(() => location.reload(), 1000);
+            window.open(`https://wa.me/${config.phone}?text=${msg}`);
+        }
+
+        /* ADMIN - RESTORED STRONG FUNCTIONS */
+        function openAdminAuth() { document.getElementById('auth-overlay').style.display = 'flex'; setTimeout(() => document.getElementById('auth-popup').classList.add('active'), 10); document.getElementById('admin-pass-input').value = ''; }
+        function closeAuth() { document.getElementById('auth-popup').classList.remove('active'); setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 300); }
+        function checkAdminPass() { if(document.getElementById('admin-pass-input').value === "212282") { closeAuth(); openAdminPanel(); } else { alert("Wrong PIN"); } }
+        
+        function openAdminPanel() {
+            const overlay = document.getElementById('admin-overlay'); overlay.style.display = 'flex'; setTimeout(() => document.getElementById('admin-sheet').classList.add('active'), 10);
+            ['search','welcome','offers','special','gallery'].forEach(k => document.getElementById(`toggle-${k}`).className = `toggle-switch ${settings['show'+k.charAt(0).toUpperCase()+k.slice(1)] ? 'active' : ''}`);
+            document.getElementById('edit-welcome-text').value = settings.welcomeText;
+            document.getElementById('edit-offer-text').value = settings.offerText;
+            document.getElementById('admin-upi-id').value = settings.upiId || '';
+            document.getElementById('admin-music-url').value = settings.musicUrl || '';
+            if(settings.qrCode) { document.getElementById('admin-qr-preview').src = settings.qrCode; document.getElementById('admin-qr-preview').style.display = 'block'; }
+            renderAdminSpecials(); renderAdminGallery(); renderAdminMenuEditor();
+        }
+
+        function processImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 600; canvas.height = img.height * (600 / img.width);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    callback(canvas.toDataURL('image/jpeg', 0.7)); 
+                }; img.src = e.target.result;
+            }; reader.readAsDataURL(file);
+        }
+
+        function uploadQRImage(input) { if(input.files[0]) processImage(input.files[0], (b64) => { settings.qrCode = b64; document.getElementById('admin-qr-preview').src = b64; document.getElementById('admin-qr-preview').style.display='block'; }); }
+        
+        function renderAdminSpecials() {
+            const div = document.getElementById('admin-specials-list'); div.innerHTML = '';
+            settings.specialItems.forEach((item, idx) => div.innerHTML += `
+            <div class="admin-item-edit">
+                <div style="font-weight:700; font-size:12px; color:var(--primary);">ITEM ${idx+1} <button style="float:right; color:red; border:none; background:none;" onclick="removeSpecial(${idx})">DEL</button></div>
+                <input id="sp-t-${idx}" class="input-v2" value="${item.title}">
+                <input id="sp-p-${idx}" class="input-v2" value="${item.price}" type="number">
+                <select id="sp-ty-${idx}" class="input-v2" style="margin-top:5px; padding:10px;">
+                    <option value="veg" ${item.type === 'veg' ? 'selected' : ''}>Veg</option>
+                    <option value="non-veg" ${item.type === 'non-veg' ? 'selected' : ''}>Non-Veg</option>
+                </select>
+                <div style="display:flex; gap:5px; margin-top:5px;">
+                    <input type="text" class="input-mini" value="${item.img}" placeholder="Img URL" id="sp-im-${idx}">
+                    <input type="file" id="sp-fl-${idx}" hidden onchange="uploadSpecialImage(this, ${idx})">
+                    <button onclick="document.getElementById('sp-fl-${idx}').click()" class="upload-btn">Upload</button>
+                </div>
+            </div>`);
+        }
+        function uploadSpecialImage(input, idx) { if(input.files[0]) processImage(input.files[0], (b64) => { document.getElementById(`sp-im-${idx}`).value = b64; }); }
+
+        function addNewSpecial() { settings.specialItems.push({ title: "New", price: 99, type: "veg", img: "", desc: "" }); renderAdminSpecials(); }
+        function removeSpecial(i) { settings.specialItems.splice(i, 1); renderAdminSpecials(); }
+
+        function renderAdminGallery() {
+            const div = document.getElementById('admin-gallery-list'); div.innerHTML = '';
+            settings.teamPhotos.forEach((url, i) => div.innerHTML += `
+            <div class="admin-photo-item">
+                <img src="${url}" class="admin-photo-img">
+                <button class="admin-photo-del" onclick="removeTeamPhoto(${i})">X</button>
+            </div>`);
+        }
+        function handleTeamUpload(input) { if(input.files[0]) processImage(input.files[0], (b64) => { settings.teamPhotos.push(b64); renderAdminGallery(); }); }
+        function removeTeamPhoto(i) { settings.teamPhotos.splice(i, 1); renderAdminGallery(); }
+
+        function toggleStock(ci, ii) {
+            const input = document.getElementById(`st-${ci}-${ii}`);
+            const btn = document.getElementById(`btn-stock-${ci}-${ii}`);
+            let val = parseInt(input.value);
+            if(val > 0) {
+                input.value = 0;
+                btn.style.background = '#ff4757';
+                btn.innerText = 'SOLD OUT';
             } else {
-                audio.pause();
-                icon.className = "ri-disc-line";
+                input.value = 50; 
+                btn.style.background = '#2ecc71';
+                btn.innerText = 'IN STOCK';
             }
         }
 
-        function adjustVolume(val) {
-            document.getElementById('bg-music').volume = val;
+        // NEW: Toggle Visibility Logic
+        function toggleVisible(ci, ii) {
+            const catName = Object.keys(activeMenu)[ci];
+            const item = activeMenu[catName][ii];
+            item.hidden = !item.hidden;
+            saveAdminSettings(false); // Save without closing to refresh view
+            renderAdminMenuEditor();
         }
 
-        function shareMenu() {
-            if(navigator.share) navigator.share({title: "FLAVRZ Menu", url: window.location.href});
-            else {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Menu Link copied!");
+        // NEW: Category Management
+        function addNewCategory() {
+            const name = prompt("Enter New Category Name:");
+            if(name && !activeMenu[name]) {
+                activeMenu[name] = [];
+                saveAdminSettings(false);
+                renderAdminMenuEditor();
+            } else if(activeMenu[name]) {
+                alert("Category already exists!");
             }
         }
+
+        function deleteCategory(catName) {
+            if(confirm(`Delete category '${catName}' and all items in it?`)) {
+                delete activeMenu[catName];
+                saveAdminSettings(false);
+                renderAdminMenuEditor();
+            }
+        }
+
+        function renameCategory(oldName) {
+            const newName = prompt("Rename Category:", oldName);
+            if(newName && newName !== oldName) {
+                if(activeMenu[newName]) return alert("Category name already exists!");
+                const items = activeMenu[oldName];
+                // Rebuild object to preserve order (tricky in JS objects, but we try)
+                const newMenu = {};
+                for (let key in activeMenu) {
+                    if (key === oldName) newMenu[newName] = items;
+                    else newMenu[key] = activeMenu[key];
+                }
+                activeMenu = newMenu;
+                saveAdminSettings(false);
+                renderAdminMenuEditor();
+            }
+        }
+
+        function renderAdminMenuEditor() {
+            const div = document.getElementById('admin-menu-editor'); div.innerHTML = '';
+            Object.entries(activeMenu).forEach(([cat, items], ci) => {
+                div.innerHTML += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; border-bottom:1px solid #333; padding-bottom:5px;">
+                    <div style="font-weight:800; color:var(--primary);">${cat}</div>
+                    <div>
+                        <button onclick="renameCategory('${cat}')" class="cat-btn"><i class="ri-edit-line"></i></button>
+                        <button onclick="deleteCategory('${cat}')" class="cat-btn" style="color:red; border-color:red;"><i class="ri-delete-bin-line"></i></button>
+                    </div>
+                </div>
+                <button onclick="addNewItem('${cat}')" style="width:100%; padding:5px; margin-top:5px; background:var(--input-bg); border:1px dashed var(--border-color); color:var(--text-main); border-radius:5px; font-size:11px;">+ Add Item to ${cat}</button>
+                `;
+                
+                items.forEach((item, ii) => {
+                     const sVal = getStock(item.name);
+                     const isOOS = sVal <= 0;
+                     const btnColor = isOOS ? '#ff4757' : '#2ecc71';
+                     const btnText = isOOS ? 'SOLD OUT' : 'IN STOCK';
+                     
+                     // Eye Icon Logic
+                     const isHidden = item.hidden === true;
+                     const eyeIcon = isHidden ? 'ri-eye-off-line' : 'ri-eye-line';
+                     const eyeColor = isHidden ? '#95a5a6' : 'var(--primary)';
+
+                     div.innerHTML += `
+                        <div class="admin-item-edit" style="${isHidden ? 'opacity:0.6; border:1px dashed #999;' : ''}">
+                            <div class="edit-row">
+                                <button onclick="toggleVisible(${ci}, ${ii})" style="background:none; border:none; font-size:18px; color:${eyeColor}; margin-right:5px;"><i class="${eyeIcon}"></i></button>
+                                <button onclick="toggleStock(${ci}, ${ii})" style="background:${btnColor}; color:white; border:none; padding:5px 8px; border-radius:5px; font-size:10px; font-weight:bold; margin-right:5px; width:70px;" id="btn-stock-${ci}-${ii}">${btnText}</button>
+                                <input type="number" class="input-mini" style="width:50px; background:var(--input-bg);" value="${sVal}" id="st-${ci}-${ii}">
+                                <input type="text" class="input-mini" value="${item.name}" id="nm-${ci}-${ii}">
+                                <input type="number" class="input-mini" value="${item.price}" style="max-width:60px" id="pr-${ci}-${ii}">
+                                <button class="del-btn" onclick="deleteItem('${cat}', ${ii})"><i class="ri-delete-bin-line"></i></button>
+                            </div>
+                            <input type="text" class="input-mini" value="${item.desc}" placeholder="Desc" id="ds-${ci}-${ii}">
+                            <div style="display:flex; gap:5px; margin-top:5px;">
+                                <input type="text" class="input-mini" value="${item.img}" placeholder="Img URL" id="im-${ci}-${ii}">
+                                <input type="file" id="fl-${ci}-${ii}" hidden onchange="uploadMenuImage(this, ${ci}, ${ii})">
+                                <button onclick="document.getElementById('fl-${ci}-${ii}').click()" class="upload-btn"><i class="ri-upload-2-fill"></i></button>
+                            </div>
+                        </div>`;
+                });
+            });
+        }
+        
+        function addNewItem(cat) {
+            activeMenu[cat].push({ name: "New Item", price: 100, type: "veg", desc: "", img: "" });
+            saveAdminSettings(false);
+            renderAdminMenuEditor();
+        }
+
+        function deleteItem(cat, idx) {
+            if(confirm("Delete item?")) {
+                activeMenu[cat].splice(idx, 1);
+                saveAdminSettings(false);
+                renderAdminMenuEditor();
+            }
+        }
+
+        function uploadMenuImage(input, catIdx, itemIdx) { if(input.files[0]) processImage(input.files[0], (b64) => { document.getElementById(`im-${catIdx}-${itemIdx}`).value = b64; }); }
+
+        function closeAdminPanel() { document.getElementById('admin-sheet').classList.remove('active'); setTimeout(() => document.getElementById('admin-overlay').style.display='none', 300); }
+        function toggleSetting(k) { settings[k] = !settings[k]; document.getElementById(`toggle-${k.replace('show','').toLowerCase()}`).classList.toggle('active'); }
+        function factoryReset() { if(confirm("Reset Everything?")) { localStorage.clear(); location.reload(); } }
+
+        function saveAdminSettings(close = true) {
+            settings.welcomeText = document.getElementById('edit-welcome-text').value;
+            settings.offerText = document.getElementById('edit-offer-text').value;
+            settings.upiId = document.getElementById('admin-upi-id').value;
+            settings.musicUrl = document.getElementById('admin-music-url').value;
+            
+            settings.specialItems.forEach((item, i) => {
+                item.title = document.getElementById(`sp-t-${i}`).value;
+                item.price = parseInt(document.getElementById(`sp-p-${i}`).value);
+                item.img = document.getElementById(`sp-im-${i}`).value;
+                // ADDED: Saving Type for Specials
+                item.type = document.getElementById(`sp-ty-${i}`).value;
+            });
+            Object.entries(activeMenu).forEach(([cat, items], ci) => {
+                items.forEach((item, ii) => {
+                    const nameInput = document.getElementById(`nm-${ci}-${ii}`);
+                    if(nameInput) {
+                        item.name = nameInput.value;
+                        item.price = parseInt(document.getElementById(`pr-${ci}-${ii}`).value);
+                        item.desc = document.getElementById(`ds-${ci}-${ii}`).value;
+                        item.img = document.getElementById(`im-${ci}-${ii}`).value;
+                        menuStock[item.name] = parseInt(document.getElementById(`st-${ci}-${ii}`).value);
+                    }
+                });
+            });
+
+            localStorage.setItem('flavrzSettingsV23', JSON.stringify(settings));
+            localStorage.setItem('flavrzStockV23', JSON.stringify(menuStock));
+            localStorage.setItem('flavrzMenuV23', JSON.stringify(activeMenu));
+            if(close) { closeAdminPanel(); init(); alert("Saved!"); }
+        }
+
+        function scrollToCat(id, el) { 
+            document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); el.classList.add('active');
+            document.getElementById(`cat-${id}`).scrollIntoView({behavior:'smooth', block:'start'}); 
+        }
+        function toggleTheme() { document.documentElement.setAttribute('data-theme', document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+        function shareMenu() { window.open(`https://wa.me/?text=${encodeURIComponent("Order from FLAVRZ: " + window.location.href)}`); }
+        function writeReview() { window.open(`https://wa.me/${config.phone}?text=${encodeURIComponent("My review for FLAVRZ: ")}`); }
 
         init();
     </script>
