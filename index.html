@@ -77,6 +77,32 @@
         .admin-toggle-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; color: #ccc; font-size: 14px; }
 
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+		/* --- TOAST NOTIFICATION CSS --- */
+#toast-notification {
+    visibility: hidden;
+    min-width: 200px;
+    background-color: rgba(20, 20, 20, 0.95);
+    color: #fff;
+    text-align: center;
+    border-radius: 50px;
+    padding: 12px 20px;
+    position: fixed;
+    z-index: 3000;
+    left: 50%;
+    bottom: 90px; /* Cart bar ke upar dikhega */
+    transform: translateX(-50%);
+    font-size: 13px;
+    border: 1px solid var(--primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+}
+
+#toast-notification.show {
+    visibility: visible;
+    opacity: 1;
+    bottom: 100px; /* Thoda upar slide karega */
+}
     </style>
 </head>
 <body>
@@ -471,19 +497,7 @@
         }
 
         // --- CART LOGIC ---
-        function updateCart(cat, idx, change) {
-            const item = menu[cat][idx];
-            let existing = cart.find(x => x.name === item.name);
-            
-            if(existing) {
-                existing.qty += change;
-                if(existing.qty <= 0) cart = cart.filter(x => x.name !== item.name);
-            } else if(change > 0) {
-                cart.push({ ...item, qty: 1 });
-            }
-            updateCartUI();
-            renderMenu(); 
-        }
+        
 
         function updateCartUI() {
             const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
@@ -495,7 +509,27 @@
             // FIXED: Only number
             document.getElementById('cart-total').innerHTML = total;
         }
-
+function updateCart(cat, idx, change) {
+    const item = menu[cat][idx];
+    let existing = cart.find(x => x.name === item.name);
+    
+    if(existing) {
+        existing.qty += change;
+        if(existing.qty <= 0) {
+            cart = cart.filter(x => x.name !== item.name);
+            showToast("Item Removed"); // Notification for removal
+        } else {
+            // Notification for increase/decrease
+            if(change > 0) showToast(item.name + " Added!"); 
+        }
+    } else if(change > 0) {
+        cart.push({ ...item, qty: 1 });
+        showToast(item.name + " Added!"); // Notification for new item
+    }
+    
+    updateCartUI();
+    renderMenu(); 
+}
         function showCart() {
             document.getElementById('cart-overlay').style.display = 'flex';
             const list = document.getElementById('cart-items-list');
@@ -592,8 +626,25 @@
                 navigator.clipboard.writeText(window.location.href);
                 alert("Menu Link copied!");
             }
-        }
+// --- TOAST FUNCTION ---
+function showToast(message) {
+    // Check if toast element exists, if not create it
+    let toast = document.getElementById("toast-notification");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "toast-notification";
+        document.body.appendChild(toast);
+    }
 
+    // Set text and show
+    toast.innerText = message;
+    toast.className = "show";
+
+    // Hide after 3 seconds
+    setTimeout(function(){ 
+        toast.className = toast.className.replace("show", ""); 
+    }, 3000);
+}
         init();
     </script>
 </body>
