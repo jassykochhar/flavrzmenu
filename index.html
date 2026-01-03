@@ -440,7 +440,7 @@
                         </div>
                         <div style="flex:1;">
                             <div class="food-title-grid">${item.name}</div>
-                            <div style="font-size:10px; color:${item.type==='veg'?'#00E676':'#FF0055'}; margin-bottom:5px;">● ${item.type.toUpperCase()}</div>
+                            <div style="font-size:10px; color:${item.type==='veg'?'#00E676':'#FF0055'}; margin-bottom:5px;">â— ${item.type.toUpperCase()}</div>
                             <div class="food-price-grid">${item.price}</div>
                             <div style="color:#888; font-size:11px; line-height:1.2;">${item.desc || ''}</div>
                         </div>
@@ -525,7 +525,7 @@
                 navigator.geolocation.getCurrentPosition(pos => {
                     const link = `http://googleusercontent.com/maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
                     document.getElementById('cust-location-url').value = link;
-                    alert("Location Captured! 📍");
+                    alert("Location Captured! ðŸ“");
                 }, () => alert("Location Access Denied"));
             } else alert("Geolocation not supported");
         }
@@ -542,13 +542,13 @@
             if(!name || !society || !flat) return alert("Please fill Name, Address & Flat No.");
 
             let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
-            msg += `👤 *Name:* ${name}%0A📞 *Phone:* ${phone}%0A🏠 *Addr:* ${flat}, ${society}%0A`;
-            if(loc) msg += `📍 *Loc:* ${loc}%0A`;
-            if(note) msg += `📝 *Note:* ${note}%0A`;
+            msg += `ðŸ‘¤ *Name:* ${name}%0AðŸ“ž *Phone:* ${phone}%0AðŸ  *Addr:* ${flat}, ${society}%0A`;
+            if(loc) msg += `ðŸ“ *Loc:* ${loc}%0A`;
+            if(note) msg += `ðŸ“ *Note:* ${note}%0A`;
 
             msg += `%0A*ITEMS:*%0A`;
             // FIXED: Removed symbol from WA message too
-            cart.forEach(i => msg += `• ${i.name} x${i.qty} - ${i.price*i.qty}%0A`);
+            cart.forEach(i => msg += `â€¢ ${i.name} x${i.qty} - ${i.price*i.qty}%0A`);
             msg += `%0A*TOTAL: ${document.getElementById('cart-total').innerText}*`;
             
             window.open(`https://wa.me/${config.phone}?text=${msg}`);
