@@ -3,442 +3,598 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>FLAVRZ - Admin Edition</title>
+    <title>FLAVRZ - By Jassi Pajji</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <style>
         :root {
             --primary: #E2FF00;
             --secondary: #00E676;
-            --danger: #FF3B30;
             --bg-body: #050505;
             --bg-card: #121212;
-            --bg-glass: rgba(18, 18, 18, 0.98);
+            --bg-glass: rgba(18, 18, 18, 0.95);
             --text-main: #ffffff;
             --border-color: #333333;
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
         }
+
+        [data-theme="neon-blue"] { --primary: #00F2FF; }
+        [data-theme="neon-red"] { --primary: #FF0055; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 100px; }
+        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 120px; transition: 0.3s; }
 
-        /* --- TOAST NOTIFICATION --- */
-        #toast-box {
-            visibility: hidden; min-width: 250px; background-color: #111; color: var(--primary);
-            text-align: center; border-radius: 50px; padding: 12px 20px; position: fixed; z-index: 4000;
-            left: 50%; bottom: 90px; transform: translateX(-50%); font-size: 14px; border: 1px solid var(--primary);
-            font-weight: 700; opacity: 0; transition: all 0.3s;
-        }
-        #toast-box.show { visibility: visible; opacity: 1; bottom: 110px; }
-
-        /* --- HEADER --- */
         .brand-card { background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(5,5,5,0) 100%); padding: 30px 20px 10px; text-align: center; }
-        .main-header { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary); cursor: pointer; user-select: none; letter-spacing: -1px; }
-        .tagline { font-size: 0.8rem; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
+        .main-header { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary); animation: float 3s ease-in-out infinite; cursor: pointer; user-select: none; }
+        .tagline { font-size: 0.9rem; color: #aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+        .action-grid { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
+        .glow-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+        .glow-btn:active { background: var(--primary); color: black; border-color: var(--primary); }
 
-        /* --- NAVIGATION --- */
-        .cat-nav { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; position: sticky; top: 0; z-index: 990; background: var(--bg-body); border-bottom: 1px solid #222; scrollbar-width: none; }
-        .chip { padding: 8px 18px; background: #1a1a1a; border: 1px solid #333; border-radius: 50px; font-size: 13px; color: #aaa; white-space: nowrap; transition: 0.2s; font-weight: 600; }
-        .chip.active { background: var(--primary); color: black; border-color: var(--primary); }
+        .glass-header { background: var(--bg-glass); backdrop-filter: blur(12px); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+        .search-container { flex: 1; background: #1f1f1f; display: flex; align-items: center; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .search-container input { background: none; border: none; outline: none; width: 100%; color: white; margin-left: 10px; }
 
-        /* --- FOOD LIST --- */
-        .menu-container { padding-bottom: 50px; }
-        .section-title { padding: 25px 20px 10px; font-size: 20px; font-weight: 800; color: white; text-transform: uppercase; border-left: 4px solid var(--primary); margin: 10px 0; display: flex; align-items: center; }
+        .hero-banner { margin: 20px; background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; box-shadow: var(--shadow-card); }
+        .hero-banner h2 { color: var(--primary); text-transform: uppercase; font-style: italic; }
+        .offers-banner { margin: 0 20px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--primary); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; color: var(--primary); }
+
+        .section-header { padding: 0 20px; font-size: 18px; font-weight: 800; margin: 25px 0 15px; border-left: 3px solid var(--primary); padding-left: 15px; text-transform: uppercase; }
+        .special-grid { display: flex; overflow-x: auto; gap: 15px; padding: 0 20px 20px; scrollbar-width: none; }
+        .special-card { min-width: 160px; background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative; }
+        .special-img { width: 100%; height: 110px; object-fit: cover; }
+        .special-badge { position: absolute; top: 5px; left: 5px; background: var(--primary); color: black; font-weight: bold; font-size: 10px; padding: 2px 5px; border-radius: 4px; }
         
-        .food-card { display: flex; background: var(--bg-card); border-radius: 16px; padding: 10px; gap: 15px; margin: 0 20px 15px; border: 1px solid #222; position: relative; overflow: hidden; }
-        .food-card.out-of-stock { opacity: 0.5; filter: grayscale(1); border: 1px dashed #555; }
+        .cat-nav { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; position: sticky; top: 70px; z-index: 990; background: var(--bg-body); border-bottom: 1px solid #222; }
+        .chip { padding: 6px 16px; background: transparent; border: 1px solid #444; border-radius: 50px; font-size: 13px; color: #aaa; white-space: nowrap; transition: 0.3s; }
+        .chip.active { background: var(--primary); color: black; border-color: var(--primary); font-weight: 700; }
+
+        .food-card-grid { display: flex; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 10px; gap: 12px; margin: 0 20px 12px; position: relative; }
+        .food-img-grid { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; background: #222; }
+        .food-title-grid { font-size: 15px; font-weight: 700; color: white; }
+        .food-price-grid { font-size: 15px; font-weight: 700; color: var(--primary); }
+
+        .add-btn { background: var(--primary); color: black; border: none; padding: 6px 18px; border-radius: 6px; font-weight: 800; font-size: 12px; position: absolute; right: 10px; bottom: 10px; }
+        .qty-group { display: flex; align-items: center; background: #222; border: 1px solid #444; border-radius: 6px; height: 30px; position: absolute; right: 10px; bottom: 10px; }
+        .qty-btn { width: 25px; color: var(--primary); background: none; border: none; font-weight: bold; font-size: 16px; }
+        .qty-val { color: white; font-weight: bold; font-size: 13px; padding: 0 5px; }
+
+        .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--primary); color: black; padding: 15px 20px; border-radius: 12px; display: none; justify-content: space-between; align-items: center; z-index: 1001; font-weight: 900; box-shadow: 0 0 20px var(--primary); animation: float 4s infinite; }
         
-        .food-img { width: 95px; height: 95px; object-fit: cover; border-radius: 12px; background: #222; flex-shrink: 0; }
+        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; }
+        .bottom-sheet { background: #111; width: 100%; border-radius: 20px 20px 0 0; padding: 25px; max-height: 90vh; position: absolute; bottom: 0; border-top: 1px solid #333; color: white; display: flex; flex-direction: column; }
         
-        .food-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .food-name { font-size: 16px; font-weight: 700; line-height: 1.2; margin-bottom: 4px; color: white; }
-        .food-desc { font-size: 11px; color: #888; margin-bottom: 8px; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;}
-        .food-meta { display: flex; align-items: center; gap: 10px; }
-        .price-tag { font-size: 16px; font-weight: 800; color: var(--primary); }
-        .type-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-        
-        .add-btn { background: #333; color: white; border: 1px solid #444; padding: 6px 20px; border-radius: 8px; font-weight: 700; font-size: 12px; position: absolute; right: 10px; bottom: 10px; cursor: pointer; transition: 0.2s; }
-        .add-btn:active { background: var(--primary); color: black; border-color: var(--primary); transform: scale(0.95); }
-        
-        .qty-control { display: flex; align-items: center; background: #111; border: 1px solid var(--primary); border-radius: 8px; height: 32px; position: absolute; right: 10px; bottom: 10px; }
-        .q-btn { width: 30px; height: 100%; background: transparent; border: none; color: var(--primary); font-size: 18px; font-weight: bold; cursor: pointer; }
-        .q-val { color: white; font-weight: bold; font-size: 14px; min-width: 20px; text-align: center; }
+        .input-v2, select.input-v2, textarea.input-v2 { background: #222; border: 1px solid #333; color: white; padding: 15px; width: 100%; border-radius: 8px; margin-bottom: 10px; outline: none; }
+        .btn-checkout { background: var(--secondary); color: black; font-weight: 800; padding: 15px; width: 100%; border: none; border-radius: 8px; font-size: 16px; margin-top: 10px; }
 
-        /* --- CART BAR --- */
-        .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--primary); color: black; padding: 15px 20px; border-radius: 12px; display: none; justify-content: space-between; align-items: center; z-index: 2000; font-weight: 900; box-shadow: 0 0 25px rgba(226, 255, 0, 0.4); cursor: pointer; animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        @keyframes popUp { from { transform: scale(0.8) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+        .music-pill { position: fixed; bottom: 85px; right: 20px; z-index: 1100; background: rgba(0,0,0,0.9); border: 1px solid #333; padding: 8px 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; }
+        .toggle-switch { width: 40px; height: 20px; background: #333; border-radius: 20px; position: relative; transition: 0.3s; }
+        .toggle-switch::after { content:''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: 0.3s; }
+        .toggle-switch.active { background: var(--primary); }
+        .toggle-switch.active::after { transform: translateX(20px); background: black; }
+        .admin-toggle-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; color: #ccc; font-size: 14px; }
 
-        /* --- OVERLAYS --- */
-        .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); z-index: 3000; display: none; align-items: flex-end; }
-        .sheet { background: #111; width: 100%; border-radius: 20px 20px 0 0; padding: 25px; max-height: 85vh; overflow-y: auto; border-top: 1px solid #333; animation: slideUp 0.3s ease-out; }
-        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-
-        .form-input { width: 100%; padding: 15px; margin-bottom: 12px; background: #222; border: 1px solid #333; color: white; border-radius: 10px; font-size: 14px; outline: none; }
-        .form-input:focus { border-color: var(--primary); }
-        .btn-action { width: 100%; padding: 16px; background: var(--secondary); color: black; font-weight: 800; border: none; border-radius: 10px; font-size: 16px; margin-top: 10px; cursor: pointer; }
-
-        /* --- ADMIN SPECIFIC --- */
-        .admin-card { background: #1a1a1a; padding: 15px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; }
-        .admin-label { font-size: 10px; color: #888; text-transform: uppercase; margin-bottom: 4px; display: block; font-weight: bold; }
-        .row { display: flex; gap: 10px; }
-        .col { flex: 1; }
-        .btn-save { background: var(--primary); width: 100%; padding: 12px; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; margin-top: 8px; }
-        .btn-toggle { background: #333; color: white; padding: 8px; border-radius: 6px; border: 1px solid #444; font-size: 12px; cursor: pointer; flex: 1; }
-        .btn-toggle.active { background: var(--secondary); color: black; border-color: var(--secondary); }
-        .btn-toggle.off { background: var(--danger); color: white; border-color: var(--danger); }
-
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
     </style>
 </head>
 <body>
 
-    <div id="toast-box"></div>
+    <audio id="bg-music" loop><source src="" type="audio/mpeg"></audio>
 
     <div class="brand-card">
         <h1 class="main-header" onclick="handleSecretClick()">FLAVRZ</h1>
-        <div class="tagline">Tap Logo 5 Times for Admin</div>
-        <div style="display:flex; justify-content:center; gap:10px;">
-            <button onclick="shareLink()" style="background:#222; color:white; border:1px solid #333; padding:8px 15px; border-radius:20px; font-size:12px;"><i class="ri-share-forward-fill"></i> Share Menu</button>
-            <button onclick="clearData()" style="background:#222; color:#888; border:1px solid #333; padding:8px 15px; border-radius:20px; font-size:12px;">Reset Data</button>
+        <div class="tagline">FRESH & FLAVOURFUL</div>
+        <div class="action-grid">
+            <button onclick="changeTheme()" class="glow-btn"><i class="ri-palette-line"></i> Change Theme</button>
+            <a href="#" class="glow-btn" onclick="shareMenu()"><i class="ri-share-forward-line"></i> Share Menu</a>
         </div>
+        <div id="contact-grid-display" style="display:flex; justify-content:center; gap:10px;"></div>
+    </div>
+
+    <div class="glass-header">
+        <div class="search-container">
+            <i class="ri-search-2-line" style="color:#888"></i>
+            <input type="text" id="menuSearch" placeholder="Search dishes..." onkeyup="filterMenu()">
+        </div>
+        <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+             <label style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa;">
+                <input type="checkbox" id="veg-toggle-cb" onchange="filterMenu()"> Veg Only
+            </label>
+            </div>
+    </div>
+
+    <div id="offers-container" class="offers-banner" style="display:none">
+        <i class="ri-fire-fill"></i> <span id="offer-text-display"></span>
+    </div>
+
+    <div id="hero-banner" class="hero-banner" style="display:none">
+        <h2>Welcome!</h2>
+        <p id="welcome-text-display"></p>
+    </div>
+
+    <div id="gallery-section-container" style="display:none">
+        <div class="section-header">Our Team</div>
+        <div class="special-grid" id="team-gallery-scroll"></div>
+    </div>
+
+    <div id="special-section-container" style="display:none">
+        <div class="section-header">Chef's Specials</div>
+        <div class="special-grid" id="special-grid-display"></div>
     </div>
 
     <div class="cat-nav" id="cat-nav"></div>
+    <div id="menu-list" style="padding-bottom: 50px;"></div>
 
-    <div class="menu-container" id="menu-list"></div>
+    <div class="music-pill">
+        <div onclick="toggleMusic()" style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
+            <i class="ri-disc-line" id="music-icon" style="color:white"></i> 
+            <span style="font-size: 10px; color: white;">Music</span>
+        </div>
+        <input type="range" id="vol-control" min="0" max="1" step="0.1" value="0.5" style="width: 50px;" oninput="adjustVolume(this.value)">
+    </div>
 
-    <div class="cart-bar" id="cart-bar" onclick="openCart()">
+    <div class="cart-bar" id="cart-bar" onclick="showCart()">
         <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="background: black; color:var(--primary); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:14px;" id="cart-count">0</div>
-            <div style="font-size: 15px;">VIEW CART</div>
+            <div style="background: black; color:var(--primary); width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px;" id="cart-count">0</div>
+            <div style="font-size: 14px;">VIEW CART</div>
         </div>
-        <div style="font-size: 20px;">â‚¹<span id="cart-total">0</span></div>
+        <div style="font-size: 18px;"><span id="cart-total">0</span></div>
     </div>
 
-    <div class="overlay" id="cart-overlay" style="display: none;">
-        <div class="sheet">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <h2 style="color:var(--primary);">YOUR ORDER</h2>
-                <i class="ri-close-circle-fill" style="font-size:28px; cursor:pointer;" onclick="document.getElementById('cart-overlay').style.display='none'"></i>
+    <div class="overlay" id="cart-overlay">
+        <div class="bottom-sheet" id="cart-sheet">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <h2 style="color:var(--primary);">CHECKOUT</h2>
+                <i class="ri-close-circle-fill" style="font-size: 28px; cursor: pointer;" onclick="hideCart()"></i>
             </div>
-            <div id="cart-items" style="margin-bottom:20px;"></div>
             
-            <div style="background:#222; padding:15px; border-radius:10px; margin-bottom:20px;">
-                <div style="display:flex; justify-content:space-between; color:#bbb; margin-bottom:5px;"><span>Item Total</span><span id="bill-subtotal">0</span></div>
-                <div style="display:flex; justify-content:space-between; color:#bbb; margin-bottom:10px;"><span>Delivery</span><span id="bill-delivery">0</span></div>
-                <div style="border-top:1px solid #444; padding-top:10px; display:flex; justify-content:space-between; font-size:18px; font-weight:bold; color:var(--primary);"><span>Total</span><span>â‚¹<span id="bill-total">0</span></span></div>
-            </div>
+            <div style="overflow-y: auto; flex: 1;">
+                <div id="cart-items-list" style="margin-bottom: 20px;"></div>
+                
+                <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <div style="display:flex; justify-content:space-between; color:#aaa; font-size:14px;"><span>Subtotal</span><span id="summary-subtotal">0</span></div>
+                    <div style="display:flex; justify-content:space-between; color:var(--secondary); font-size:14px;"><span>Discount</span><span id="summary-discount">-0</span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-top:10px; color:var(--primary);"><span>Total</span><span id="summary-total">0</span></div>
+                </div>
 
-            <input type="text" class="form-input" id="c-name" placeholder="Your Name">
-            <input type="tel" class="form-input" id="c-phone" placeholder="WhatsApp Number">
-            <input type="text" class="form-input" id="c-addr" placeholder="Flat No & Society Name">
-            <textarea class="form-input" id="c-note" placeholder="Any cooking instructions?"></textarea>
-            
-            <button class="btn-action" onclick="sendOrder()">PLACE ORDER ON WHATSAPP</button>
+                <div style="margin-bottom: 15px;">
+                    <input type="text" class="input-v2" id="cust-name" placeholder="Your Name">
+                    <input type="tel" class="input-v2" id="cust-phone" placeholder="WhatsApp Number">
+                    
+                    <select class="input-v2" id="cust-society" onchange="toggleOtherSociety(this)">
+                        <option value="" disabled selected>Select Society (VIP Road)</option>
+                        <option value="Savitry Greens">Savitry Greens</option>
+                        <option value="Motiaz Royal Citi">Motiaz Royal Citi</option>
+                        <option value="Maya Garden">Maya Garden</option>
+                        <option value="VIP Enclave">VIP Enclave</option>
+                        <option value="Other">Other (Type Below)</option>
+                    </select>
+                    <input type="text" class="input-v2" id="cust-other-society" placeholder="Enter Society Name" style="display: none;">
+                    
+                    <input type="text" class="input-v2" id="cust-flat" placeholder="Flat / Tower No.">
+                    
+                    <button onclick="getLocation()" style="width:100%; padding:12px; background:#333; color:var(--primary); border:1px solid var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px;">
+                        <i class="ri-map-pin-user-fill"></i> Share Current Location
+                    </button>
+                    <input type="hidden" id="cust-location-url">
+
+                    <textarea class="input-v2" id="cust-note" placeholder="Khana kaisa banana hai? (Jaise: Thoda teekha, Normal, Namak kamm...)" style="height: 80px; resize: none;"></textarea>
+                </div>
+            </div>
+            <button class="btn-checkout" onclick="whatsappCheckout()">ORDER ON WHATSAPP</button>
         </div>
     </div>
 
-    <div class="overlay" id="login-overlay" style="align-items: center; justify-content: center;">
-        <div style="background:#222; padding:30px; border-radius:15px; border:1px solid var(--primary); width:80%; text-align:center;">
-            <h2 style="color:var(--primary); margin-bottom:15px;">ADMIN PANEL</h2>
-            <input type="password" id="pin-input" class="form-input" placeholder="Enter PIN" style="text-align:center; font-size:20px; letter-spacing:5px;">
-            <button onclick="verifyPin()" style="width:100%; padding:12px; background:var(--primary); border:none; border-radius:8px; font-weight:bold;">LOGIN</button>
-            <div onclick="document.getElementById('login-overlay').style.display='none'" style="margin-top:15px; color:#666; font-size:12px;">Cancel</div>
+    <div class="overlay" id="auth-overlay" style="align-items: center; justify-content: center;">
+        <div style="background: #222; padding: 30px; border-radius: 12px; text-align: center; border: 1px solid var(--primary); width: 80%;">
+            <h3 style="color:var(--primary); margin-bottom: 15px;">ADMIN ACCESS</h3>
+            <p style="font-size:12px; color:#888; margin-bottom:10px;">Enter PIN</p>
+            <input type="password" id="admin-pass-input" class="input-v2" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size:20px;">
+            <button onclick="checkAdminPass()" style="background:var(--primary); color:black; padding:10px 20px; border:none; border-radius:5px; font-weight:bold; margin-top:10px; width:100%;">UNLOCK</button>
+            <div onclick="document.getElementById('auth-overlay').style.display='none'" style="margin-top:15px; color:#888; font-size:12px; cursor:pointer;">Cancel</div>
         </div>
     </div>
 
-    <div class="overlay" id="admin-overlay">
-        <div class="sheet">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <h2 style="color:var(--primary);">MENU EDITOR</h2>
-                <i class="ri-close-line" style="font-size:28px; cursor:pointer;" onclick="closeAdmin()"></i>
+    <div class="overlay" id="admin-overlay" style="align-items: flex-end;">
+        <div class="bottom-sheet" id="admin-sheet">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <h2 style="color:var(--primary);">ADMIN PANEL</h2>
+                <i class="ri-close-line" style="font-size: 28px;" onclick="document.getElementById('admin-overlay').style.display='none'"></i>
             </div>
-            
-            <div style="margin-bottom:15px;">
-                <label class="admin-label">Select Category to Edit</label>
-                <select id="admin-cat-select" class="form-input" onchange="loadAdminItems(this.value)">
-                    <option value="" disabled selected>Choose Category...</option>
-                </select>
-            </div>
+            <div style="overflow-y: auto; padding-bottom: 20px;">
+                <h4 style="color:var(--primary); margin-bottom:10px;">Visibility Settings</h4>
+                <div class="admin-toggle-row" onclick="toggleSetting('showSearch')"><span>Search Bar</span><div class="toggle-switch" id="toggle-search"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showWelcome')"><span>Welcome Banner</span><div class="toggle-switch" id="toggle-welcome"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showOffers')"><span>Offers Banner</span><div class="toggle-switch" id="toggle-offers"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showSpecial')"><span>Special Section</span><div class="toggle-switch" id="toggle-special"></div></div>
+                <div class="admin-toggle-row" onclick="toggleSetting('showGallery')"><span>Team Section</span><div class="toggle-switch" id="toggle-gallery"></div></div>
 
-            <div id="admin-editor-area" style="padding-bottom:50px;"></div>
+                <h4 style="color:var(--primary); margin:20px 0 10px;">Media & Links</h4>
+                <input type="text" id="admin-upi-id" class="input-v2" placeholder="UPI ID">
+                <input type="text" id="admin-music-url" class="input-v2" placeholder="Music URL (MP3)">
+                <input type="text" id="admin-qr-url" class="input-v2" placeholder="QR Image URL">
+                
+                <h4 style="color:var(--primary); margin:20px 0 10px;">Texts</h4>
+                <textarea id="edit-welcome-text" class="input-v2" placeholder="Welcome Text"></textarea>
+                <input type="text" id="edit-offer-text" class="input-v2" placeholder="Offer Text">
+
+                <button onclick="saveAdminSettings()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">SAVE SETTINGS</button>
+                <button onclick="factoryReset()" style="width:100%; background:#ff3b30; color:white; padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">FACTORY RESET (FIX MENU)</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // --- 1. DATA CONFIGURATION ---
-        const CONFIG = { pin: "212282", phone: "916230146463" }; // WhatsApp number format
-
-        const DEFAULT_DATA = {
-            "Momos": [
-                { name: "Veg Momos", price: 60, desc: "Steamed vegetable dumplings", img: "https://github.com/jassykochhar/flavrzmenu/blob/main/veg-momos.jpg?raw=true", type: "veg", inStock: true },
-                { name: "Paneer Momos", price: 80, desc: "Filled with fresh cottage cheese", img: "https://b.zmtcdn.com/data/dish_photos/08f/9590885093751702115668045608f.jpg", type: "veg", inStock: true },
-                { name: "Chicken Momos", price: 90, desc: "Juicy chicken filling", img: "https://media.istockphoto.com/id/1155361862/photo/chicken-momos.jpg?s=612x612&w=0&k=20&c=K5xW4l-nKqf8q5i2q3o4p5.jpg", type: "non-veg", inStock: true }
+        // --- DATA DEFAULTS (JASSI PAJJI MENU) ---
+        const DEFAULT_MENU = {
+            "Momos & Spring Rolls": [
+                { name: "Veg Momos (Steamed)", price: 60, type: "veg", desc: "10 pieces of juicy steamed vegetable momos.", img: "images/veg-momos.jpg" },
+                { name: "Paneer Momos", price: 80, type: "veg", desc: "Steamed momos filled with fresh paneer.", img: "images/paneer-momos.jpg" },
+                { name: "Chicken Momos", price: 90, type: "non-veg", desc: "Juicy chicken filled steamed dumplings.", img: "images/chicken-momos.jpg" },
+                { name: "Veg Crispy Momos", price: 70, type: "veg", desc: "Fried crunchy momos with dipping sauce.", img: "images/veg-crispy-momos.jpg" },
+                { name: "Crispy Paneer Momos", price: 80, type: "veg", desc: "Crunchy fried paneer momos.", img: "images/crispy-paneer-momos.jpg" },
+                { name: "Veg Spring Rolls", price: 60, type: "veg", desc: "Classic rolls stuffed with stir-fried veggies.", img: "images/veg-spring-rolls.jpg" },
+                { name: "Crispy Spring Rolls", price: 80, type: "veg", desc: "Extra crunchy vegetable spring rolls.", img: "images/crispy-spring-rolls.jpg" }
+            ],
+            "Combos": [
+                { name: "Chicken + Rice", price: 100, type: "non-veg", desc: "Comforting chicken curry with steamed rice.", img: "images/chicken-rice-combo.jpg" },
+                { name: "Rahra Chicken + Parantha", price: 180, type: "non-veg", desc: "Spicy Rahra chicken served with Lachha Parantha.", img: "images/rahra-combo.jpg" },
+                { name: "Rice + Manchurian", price: 99, type: "veg", desc: "Veg Fried Rice served with Veg Manchurian.", img: "images/rice-manchurian.jpg" },
+                { name: "Chowmein + Manchurian", price: 99, type: "veg", desc: "Veg Chowmein served with Veg Manchurian.", img: "images/noodle-manchurian.jpg" },
+                { name: "Rice/Noodle + Chilli Cheese", price: 120, type: "veg", desc: "Fried Rice or Chowmein with spicy Chilli Cheese Gravy.", img: "images/chinese-combo-veg.jpg" },
+                { name: "Rice/Noodle + Chilli Chicken", price: 120, type: "non-veg", desc: "Fried Rice or Chowmein with Chilli Chicken Gravy.", img: "images/chinese-combo-nonveg.jpg" }
             ],
             "Chinese": [
-                { name: "Veg Fried Rice", price: 80, desc: "Wok tossed rice", img: "https://static.toiimg.com/thumb/53338316.cms?width=1200&height=900", type: "veg", inStock: true },
-                { name: "Chilli Chicken", price: 120, desc: "Spicy gravy chicken", img: "https://www.indianhealthyrecipes.com/wp-content/uploads/2018/07/chilli-chicken-recipe-500x500.jpg", type: "non-veg", inStock: true }
+                { name: "Veg Fried Rice", price: 80, type: "veg", desc: "Wok-tossed rice with fresh veggies.", img: "images/veg-fried-rice.jpg" },
+                { name: "Veg Chowmein", price: 80, type: "veg", desc: "Stir-fried noodles with crunchy vegetables.", img: "images/veg-chowmein.jpg" },
+                { name: "Veg Manchurian", price: 80, type: "veg", desc: "Vegetable balls in spicy soy gravy.", img: "images/veg-manchurian.jpg" },
+                { name: "Chili Cheese Gravy", price: 100, type: "veg", desc: "Spicy cottage cheese in rich gravy.", img: "images/chili-cheese.jpg" },
+                { name: "Chilli Chicken Gravy", price: 120, type: "non-veg", desc: "Tender chicken in hot chilli sauce.", img: "images/chilli-chicken.jpg" },
+                { name: "Chicken Fried Rice", price: 120, type: "non-veg", desc: "Classic fried rice with chicken chunks.", img: "images/chicken-fried-rice.jpg" },
+                { name: "Chicken Chowmein", price: 120, type: "non-veg", desc: "Noodles tossed with chicken and spices.", img: "images/chicken-chowmein.jpg" }
+            ],
+            "Rice & Breads": [
+                { name: "Plain Rice", price: 50, type: "veg", desc: "Steamed fluffy basmati rice.", img: "images/plain-rice.jpg" },
+                { name: "Jeera Rice", price: 60, type: "veg", desc: "Basmati rice tempered with cumin seeds.", img: "images/jeera-rice.jpg" },
+                { name: "Lachha Parantha", price: 30, type: "veg", desc: "Layered crispy whole wheat bread.", img: "images/lachha-parantha.jpg" }
+            ],
+            "Pasta": [
+                { name: "Red Pasta", price: 80, type: "veg", desc: "Pasta in tangy tomato arrabbiata sauce.", img: "images/red-pasta.jpg" },
+                { name: "White Pasta", price: 80, type: "veg", desc: "Creamy cheesy white sauce pasta.", img: "images/white-pasta.jpg" },
+                { name: "Chicken Pasta", price: 100, type: "non-veg", desc: "Pasta with grilled chicken pieces.", img: "images/chicken-pasta.jpg" }
+            ],
+            "Fish Specialties": [
+                { name: "Fish Fry (250g)", price: 250, type: "non-veg", desc: "Golden fried fish with spices.", img: "images/fish-fry.jpg" },
+                { name: "Crispy Fish Fry", price: 260, type: "non-veg", desc: "Extra crispy battered fish.", img: "images/crispy-fish.jpg" },
+                { name: "Fish Popcorn", price: 280, type: "non-veg", desc: "Bite-sized crunchy fish pops.", img: "images/fish-popcorn.jpg" },
+                { name: "Fish Fingers", price: 300, type: "non-veg", desc: "Classic breaded fish fingers.", img: "images/fish-fingers.jpg" },
+                { name: "Chilli Fish", price: 300, type: "non-veg", desc: "Fish tossed in spicy chilli sauce.", img: "images/chilli-fish.jpg" }
+            ],
+            "Chicken Specialties": [
+                { name: "Butter Chicken", price: 180, type: "non-veg", desc: "Creamy rich tomato gravy chicken.", img: "images/butter-chicken.jpg" },
+                { name: "Steam Chicken", price: 100, type: "non-veg", desc: "Healthy steamed chicken with herbs.", img: "images/steam-chicken.jpg" },
+                { name: "Lemon Chicken", price: 120, type: "non-veg", desc: "Tangy lemon flavored chicken.", img: "images/lemon-chicken.jpg" },
+                { name: "Kali Mirch Chicken", price: 120, type: "non-veg", desc: "Chicken cooked with black pepper.", img: "images/kali-mirch.jpg" },
+                { name: "Chilli Chicken Dry", price: 180, type: "non-veg", desc: "Spicy stir-fried chicken appetizer.", img: "images/chilli-chicken-dry.jpg" },
+                { name: "Homestyle Gravy Chicken", price: 180, type: "non-veg", desc: "Traditional home-style chicken curry.", img: "images/homestyle-chicken.jpg" },
+                { name: "Chicken Pakoda", price: 180, type: "non-veg", desc: "Fried crispy chicken fritters.", img: "images/chicken-pakoda.jpg" },
+                { name: "Crispy Chicken", price: 180, type: "non-veg", desc: "Crunchy fried chicken pieces.", img: "images/crispy-chicken.jpg" },
+                { name: "Popcorn Chicken", price: 180, type: "non-veg", desc: "Small bites of fried chicken.", img: "images/popcorn-chicken.jpg" }
+            ],
+            "Burgers & Rolls": [
+                { name: "Aloo Tikki Burger", price: 30, type: "veg", desc: "Classic potato patty burger.", img: "images/aloo-tikki.jpg" },
+                { name: "Chicken Burger", price: 60, type: "non-veg", desc: "Spicy chicken patty burger.", img: "images/chicken-burger.jpg" },
+                { name: "Double Decker Burger", price: 40, type: "veg", desc: "Double patty for extra hunger.", img: "images/double-decker.jpg" },
+                { name: "Masala Chicken Roll", price: 80, type: "non-veg", desc: "Spicy chicken wrapped in roll.", img: "images/chicken-roll.jpg" }
+            ],
+            "Soups": [
+                { name: "Mix Veg Soup", price: 30, type: "veg", desc: "Healthy mixed vegetable soup.", img: "images/veg-soup.jpg" },
+                { name: "Chana Soup (Black)", price: 40, type: "veg", desc: "Healthy black chana soup.", img: "images/chana-soup.jpg" },
+                { name: "Chicken Soup", price: 50, type: "non-veg", desc: "Warm chicken broth.", img: "images/chicken-soup.jpg" }
+            ],
+            "Snacks": [
+                { name: "Mix Veg Pakoda", price: 60, type: "veg", desc: "Crispy vegetable fritters.", img: "images/veg-pakoda.jpg" },
+                { name: "Paneer Pakoda", price: 100, type: "veg", desc: "Fried cottage cheese snacks.", img: "images/paneer-pakoda.jpg" },
+                { name: "Peri Peri French Fries", price: 60, type: "veg", desc: "Spicy dusted fries.", img: "images/fries.jpg" },
+                { name: "Hara Bhara Kabab", price: 80, type: "veg", desc: "Healthy spinach and green pea patties.", img: "images/hara-bhara.jpg" },
+                { name: "Chilli Cheese Dry", price: 180, type: "veg", desc: "Spicy cottage cheese chunks tossed with peppers.", img: "images/chilli-cheese-dry.jpg" }
             ],
             "Beverages": [
-                { name: "Cold Coffee", price: 50, desc: "Chilled classic coffee", img: "https://www.cookwithmanali.com/wp-content/uploads/2022/06/Cold-Coffee.jpg", type: "veg", inStock: true }
+                { name: "Masala Tea", price: 20, type: "veg", desc: "Hot masala chai.", img: "images/tea.jpg" },
+                { name: "Hot Coffee", price: 30, type: "veg", desc: "Classic hot coffee.", img: "images/coffee.jpg" },
+                { name: "Mojito", price: 40, type: "veg", desc: "Refreshing mint drink.", img: "images/mojito.jpg" },
+                { name: "Cold Coffee", price: 50, type: "veg", desc: "Chilled creamy coffee.", img: "images/cold-coffee.jpg" },
+                { name: "Cold Drink (MRP)", price: 20, type: "veg", desc: "As per print price (MRP).", img: "images/cold-drink.jpg" }
             ]
         };
 
-        // --- 2. STATE MANAGEMENT ---
-        let menu = JSON.parse(localStorage.getItem('flavrz_menu_v2')) || DEFAULT_DATA;
+        const config = { phone: "916230146463", pin: "212282" }; 
+        
+        let settings = JSON.parse(localStorage.getItem('flavrz_settings')) || {
+            showSearch: true, showWelcome: true, showOffers: true, showSpecial: true, showGallery: true,
+            welcomeText: "I am your <strong>Jassi Pajji</strong>. Running National Food Court earlier, now served with new love as <strong>FLAVRZ</strong>.", 
+            offerText: "Flat 10% OFF on Chinese (Above 300)",
+            upiId: "", musicUrl: "", qrCode: "",
+            contactNumbers: ["9816972000", "6230146463"]
+        };
+        
+        // Force load default menu if empty
+        let menu = JSON.parse(localStorage.getItem('flavrz_menu'));
+        if (!menu || !menu["Momos & Spring Rolls"]) {
+            menu = DEFAULT_MENU;
+            localStorage.setItem('flavrz_menu', JSON.stringify(menu));
+        }
+
         let cart = [];
-        let tapCount = 0;
+        let adminTapCount = 0;
+        let themes = ['neon-yellow', 'neon-blue', 'neon-red'];
+        let currentThemeIdx = 0;
 
-        // Force Save on First Load to fix old structure issues
-        if(!localStorage.getItem('flavrz_menu_v2')) {
-            localStorage.setItem('flavrz_menu_v2', JSON.stringify(menu));
-        }
-
-        // --- 3. CORE FUNCTIONS ---
+        // --- INIT ---
         function init() {
-            renderNav();
+            renderUI();
             renderMenu();
+            initMusic();
         }
 
-        function renderNav() {
-            const nav = document.getElementById('cat-nav');
-            const select = document.getElementById('admin-cat-select');
-            nav.innerHTML = "";
-            select.innerHTML = '<option value="" disabled selected>Choose Category...</option>';
-
-            Object.keys(menu).forEach(cat => {
-                nav.innerHTML += `<button class="chip" onclick="scrollToCat('${cat}')">${cat}</button>`;
-                select.innerHTML += `<option value="${cat}">${cat}</option>`;
-            });
+        // --- THEME ---
+        function changeTheme() {
+            currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+            document.documentElement.setAttribute('data-theme', themes[currentThemeIdx]);
         }
 
-        function scrollToCat(cat) {
-            document.getElementById(`head-${cat}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function renderMenu() {
-            const list = document.getElementById('menu-list');
-            list.innerHTML = "";
-
-            Object.entries(menu).forEach(([cat, items]) => {
-                let html = `<div id="head-${cat}" class="section-title">${cat}</div>`;
-                
-                items.forEach((item, idx) => {
-                    // Logic to find qty in cart
-                    let qty = 0;
-                    const cartItem = cart.find(c => c.name === item.name);
-                    if (cartItem) qty = cartItem.qty;
-
-                    // Fallback image if empty
-                    const imgUrl = item.img && item.img.length > 5 ? item.img : "https://via.placeholder.com/100?text=No+Img";
-                    const isVegColor = item.type === 'veg' ? '#00E676' : '#FF3B30';
-                    const stockClass = item.inStock ? '' : 'out-of-stock';
-
-                    html += `
-                    <div class="food-card ${stockClass}">
-                        <img src="${imgUrl}" class="food-img" onerror="this.src='https://via.placeholder.com/100?text=Error'">
-                        <div class="food-info">
-                            <div class="food-name">${item.name}</div>
-                            <div class="food-desc">${item.desc}</div>
-                            <div class="food-meta">
-                                <span class="type-dot" style="background:${isVegColor}"></span>
-                                <span class="price-tag">â‚¹${item.price}</span>
-                            </div>
-                        </div>
-                        ${item.inStock ? 
-                            (qty === 0 ? 
-                            `<button class="add-btn" onclick="addToCart('${cat}', ${idx})">ADD</button>` : 
-                            `<div class="qty-control">
-                                <button class="q-btn" onclick="updateCart('${cat}', ${idx}, -1)">-</button>
-                                <span class="q-val">${qty}</span>
-                                <button class="q-btn" onclick="updateCart('${cat}', ${idx}, 1)">+</button>
-                            </div>`) 
-                        : `<div style="position:absolute; right:10px; bottom:10px; color:#ff3b30; font-weight:bold; font-size:12px; border:1px solid #ff3b30; padding:4px 8px; border-radius:4px;">SOLD OUT</div>`}
-                    </div>`;
-                });
-                list.innerHTML += html;
-            });
-        }
-
-        // --- 4. CART LOGIC ---
-        function addToCart(cat, idx) { updateCart(cat, idx, 1); }
-
-        function updateCart(cat, idx, change) {
-            const item = menu[cat][idx];
-            
-            // Find in cart
-            let existing = cart.find(c => c.name === item.name);
-
-            if (existing) {
-                existing.qty += change;
-                if (existing.qty <= 0) {
-                    cart = cart.filter(c => c.name !== item.name);
-                    showToast("Item Removed");
-                }
-            } else if (change > 0) {
-                cart.push({ ...item, qty: 1, cat: cat, idx: idx });
-                showToast("Added to Cart");
-            }
-
-            renderMenu(); // Re-render to show +/- buttons
-            updateCartBar();
-        }
-
-        function updateCartBar() {
-            const bar = document.getElementById('cart-bar');
-            const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-            const count = cart.reduce((sum, item) => sum + item.qty, 0);
-
-            document.getElementById('cart-total').innerText = total;
-            document.getElementById('cart-count').innerText = count;
-            
-            bar.style.display = count > 0 ? 'flex' : 'none';
-        }
-
-        function openCart() {
-            const overlay = document.getElementById('cart-overlay');
-            const container = document.getElementById('cart-items');
-            container.innerHTML = "";
-
-            let subtotal = 0;
-            cart.forEach(item => {
-                subtotal += item.price * item.qty;
-                container.innerHTML += `
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px; border-bottom:1px solid #333; padding-bottom:10px;">
-                    <div>
-                        <div style="color:white; font-weight:700;">${item.name}</div>
-                        <div style="color:var(--primary); font-size:13px;">â‚¹${item.price} x ${item.qty}</div>
-                    </div>
-                    <div style="color:white; font-weight:700;">â‚¹${item.price * item.qty}</div>
-                </div>`;
-            });
-
-            // Delivery Logic
-            const delivery = subtotal < 300 ? 40 : 0;
-            const finalTotal = subtotal + delivery;
-
-            document.getElementById('bill-subtotal').innerText = "â‚¹" + subtotal;
-            document.getElementById('bill-delivery').innerText = delivery === 0 ? "FREE" : "â‚¹" + delivery;
-            document.getElementById('bill-total').innerText = finalTotal;
-
-            overlay.style.display = 'flex';
-        }
-
-        function sendOrder() {
-            const name = document.getElementById('c-name').value;
-            const addr = document.getElementById('c-addr').value;
-            if(!name || !addr) return alert("Please enter Name and Address");
-
-            let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
-            msg += `ðŸ‘¤ *Name:* ${name}%0AðŸ  *Addr:* ${addr}%0A`;
-            if(document.getElementById('c-note').value) msg += `ðŸ“ *Note:* ${document.getElementById('c-note').value}%0A`;
-            
-            msg += `%0A*ITEMS:*%0A`;
-            cart.forEach(i => msg += `â–ªï¸ ${i.name} x ${i.qty}%0A`);
-            
-            msg += `%0A*TOTAL: ${document.getElementById('bill-total').innerText}*`;
-            
-            window.open(`https://wa.me/${CONFIG.phone}?text=${msg}`);
-        }
-
-        // --- 5. ADMIN LOGIC ---
+        // --- ADMIN ACCESS (5 TAPS) ---
         function handleSecretClick() {
-            tapCount++;
-            if(tapCount === 5) {
-                tapCount = 0;
-                document.getElementById('login-overlay').style.display = 'flex';
+            adminTapCount++;
+            if(adminTapCount >= 5) {
+                adminTapCount = 0;
+                document.getElementById('auth-overlay').style.display = 'flex';
+                document.getElementById('admin-pass-input').value = "";
+                document.getElementById('admin-pass-input').focus();
             }
+            setTimeout(() => adminTapCount = 0, 2000);
         }
 
-        function verifyPin() {
-            if(document.getElementById('pin-input').value === CONFIG.pin) {
-                document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('admin-overlay').style.display = 'flex';
-            } else {
-                alert("Incorrect PIN");
-            }
+        function checkAdminPass() {
+            if(document.getElementById('admin-pass-input').value === config.pin) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                openAdminPanel();
+            } else { alert("Wrong PIN"); }
         }
 
-        function loadAdminItems(cat) {
-            const container = document.getElementById('admin-editor-area');
-            container.innerHTML = "";
-            const items = menu[cat];
-
-            items.forEach((item, idx) => {
-                container.innerHTML += `
-                <div class="admin-card">
-                    <div class="row">
-                        <div class="col"><label class="admin-label">Name</label><input type="text" class="form-input" id="ed-name-${idx}" value="${item.name}"></div>
-                        <div class="col" style="flex:0.4"><label class="admin-label">Price</label><input type="number" class="form-input" id="ed-price-${idx}" value="${item.price}"></div>
-                    </div>
-                    <label class="admin-label">Image Link (URL)</label>
-                    <input type="text" class="form-input" id="ed-img-${idx}" value="${item.img}" placeholder="Paste https:// image link here">
-                    
-                    <div class="row" style="margin-top:5px;">
-                        <button class="btn-toggle ${item.inStock ? 'active' : 'off'}" onclick="toggleStock('${cat}', ${idx})">
-                            ${item.inStock ? 'IN STOCK' : 'OUT OF STOCK'}
-                        </button>
-                    </div>
-
-                    <button class="btn-save" onclick="saveItem('${cat}', ${idx})">SAVE ITEM</button>
-                </div>`;
+        function openAdminPanel() {
+            document.getElementById('admin-overlay').style.display = 'flex';
+            ['search','welcome','offers','special','gallery'].forEach(k => {
+                const isActive = settings['show'+k.charAt(0).toUpperCase()+k.slice(1)];
+                document.getElementById(`toggle-${k}`).className = `toggle-switch ${isActive ? 'active' : ''}`;
             });
+            document.getElementById('admin-upi-id').value = settings.upiId || "";
+            document.getElementById('admin-music-url').value = settings.musicUrl || "";
+            document.getElementById('admin-qr-url').value = settings.qrCode || "";
+            document.getElementById('edit-welcome-text').value = settings.welcomeText;
+            document.getElementById('edit-offer-text').value = settings.offerText;
         }
 
-        function saveItem(cat, idx) {
-            // Get values
-            const newName = document.getElementById(`ed-name-${idx}`).value;
-            const newPrice = document.getElementById(`ed-price-${idx}`).value;
-            const newImg = document.getElementById(`ed-img-${idx}`).value;
+        function toggleSetting(key) {
+            let fullKey = 'show'+key.charAt(0).toUpperCase()+key.slice(1); 
+            settings[fullKey] = !settings[fullKey];
+            document.getElementById(`toggle-${key}`).classList.toggle('active');
+        }
 
-            // Update Object
-            menu[cat][idx].name = newName;
-            menu[cat][idx].price = parseInt(newPrice);
-            menu[cat][idx].img = newImg;
-
-            // Save to LocalStorage
-            localStorage.setItem('flavrz_menu_v2', JSON.stringify(menu));
+        function saveAdminSettings() {
+            settings.upiId = document.getElementById('admin-upi-id').value;
+            settings.musicUrl = document.getElementById('admin-music-url').value;
+            settings.qrCode = document.getElementById('admin-qr-url').value;
+            settings.welcomeText = document.getElementById('edit-welcome-text').value;
+            settings.offerText = document.getElementById('edit-offer-text').value;
             
-            showToast("Item Updated!");
-            renderMenu(); // Update background view
+            localStorage.setItem('flavrz_settings', JSON.stringify(settings));
+            alert("Settings Saved!");
+            location.reload();
         }
 
-        function toggleStock(cat, idx) {
-            menu[cat][idx].inStock = !menu[cat][idx].inStock;
-            localStorage.setItem('flavrz_menu_v2', JSON.stringify(menu));
-            loadAdminItems(cat); // Refresh admin view
-            renderMenu(); // Refresh main view
-        }
-
-        function closeAdmin() {
-            document.getElementById('admin-overlay').style.display = 'none';
-        }
-
-        // --- 6. UTILS ---
-        function showToast(msg) {
-            const t = document.getElementById('toast-box');
-            t.innerText = msg;
-            t.className = "show";
-            setTimeout(() => t.className = "", 2500);
-        }
-
-        function shareLink() {
-            navigator.clipboard.writeText(window.location.href);
-            showToast("Link Copied");
-        }
-
-        function clearData() {
-            if(confirm("This will reset all menu changes to default. Continue?")) {
+        function factoryReset() {
+            if(confirm("Caution: This will reset the menu to Jassi Pajji's Default Menu. Continue?")) {
                 localStorage.clear();
                 location.reload();
             }
         }
 
-        // Start App
-        init();
+        // --- UI RENDERING ---
+        function renderUI() {
+            document.getElementById('hero-banner').style.display = settings.showWelcome ? 'block' : 'none';
+            document.getElementById('offers-container').style.display = settings.showOffers ? 'flex' : 'none';
+            document.getElementById('special-section-container').style.display = settings.showSpecial ? 'block' : 'none';
+            document.getElementById('gallery-section-container').style.display = settings.showGallery ? 'block' : 'none';
+            
+            document.getElementById('welcome-text-display').innerHTML = settings.welcomeText;
+            document.getElementById('offer-text-display').innerText = settings.offerText;
+            
+            const contactDiv = document.getElementById('contact-grid-display');
+            contactDiv.innerHTML = settings.contactNumbers.map(n => 
+                `<a href="tel:${n}" class="glow-btn"><i class="ri-phone-fill"></i> ${n}</a>`
+            ).join('');
+        }
 
+        function renderMenu() {
+            const list = document.getElementById('menu-list');
+            const nav = document.getElementById('cat-nav');
+            list.innerHTML = ""; nav.innerHTML = "";
+
+            if(!menu || Object.keys(menu).length === 0) {
+                 list.innerHTML = "<div style='text-align:center; padding:20px; color:#666;'>No items. Use Factory Reset.</div>";
+                 return;
+            }
+
+            Object.entries(menu).forEach(([cat, items]) => {
+                nav.innerHTML += `<div class="chip" onclick="document.getElementById('cat-${cat}').scrollIntoView()">${cat}</div>`;
+                
+                let itemsHtml = items.map((item, idx) => {
+                    const qty = cart.find(x => x.name === item.name)?.qty || 0;
+                    return `
+                    <div class="food-card-grid">
+                        <div style="width:90px; height:90px; background:#222; border-radius:8px;">
+                            <img src="${item.img || 'https://via.placeholder.com/90?text=Food'}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" onerror="this.src='https://via.placeholder.com/90?text=Food'">
+                        </div>
+                        <div style="flex:1;">
+                            <div class="food-title-grid">${item.name}</div>
+                            <div style="font-size:10px; color:${item.type==='veg'?'#00E676':'#FF0055'}; margin-bottom:5px;">â— ${item.type.toUpperCase()}</div>
+                            <div class="food-price-grid">${item.price}</div>
+                            <div style="color:#888; font-size:11px; line-height:1.2;">${item.desc || ''}</div>
+                        </div>
+                        ${qty > 0 ? 
+                        `<div class="qty-group"><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, -1)">-</button><span class="qty-val">${qty}</span><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, 1)">+</button></div>` :
+                        `<button class="add-btn" onclick="updateCart('${cat}', ${idx}, 1)">ADD</button>`}
+                    </div>`;
+                }).join('');
+
+                list.innerHTML += `<div id="cat-${cat}" class="section-header">${cat}</div><div>${itemsHtml}</div>`;
+            });
+        }
+
+        function filterMenu() {
+            const term = document.getElementById('menuSearch').value.toLowerCase();
+            const vegOnly = document.getElementById('veg-toggle-cb').checked;
+            
+            document.querySelectorAll('.food-card-grid').forEach(card => {
+                const name = card.querySelector('.food-title-grid').innerText.toLowerCase();
+                const typeText = card.querySelector('.food-title-grid').nextElementSibling.innerText.toLowerCase();
+                const isVeg = typeText.includes('veg') && !typeText.includes('non');
+                
+                let visible = name.includes(term);
+                if(vegOnly && !isVeg) visible = false;
+                
+                card.style.display = visible ? 'flex' : 'none';
+            });
+        }
+
+        // --- CART LOGIC ---
+        function updateCart(cat, idx, change) {
+            const item = menu[cat][idx];
+            let existing = cart.find(x => x.name === item.name);
+            
+            if(existing) {
+                existing.qty += change;
+                if(existing.qty <= 0) cart = cart.filter(x => x.name !== item.name);
+            } else if(change > 0) {
+                cart.push({ ...item, qty: 1 });
+            }
+            updateCartUI();
+            renderMenu(); 
+        }
+
+        function updateCartUI() {
+            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const count = cart.reduce((sum, i) => sum + i.qty, 0);
+            
+            const bar = document.getElementById('cart-bar');
+            bar.style.display = count > 0 ? 'flex' : 'none';
+            document.getElementById('cart-count').innerText = count;
+            // FIXED: Only number
+            document.getElementById('cart-total').innerHTML = total;
+        }
+
+        function showCart() {
+            document.getElementById('cart-overlay').style.display = 'flex';
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = cart.map(i => `
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px;">
+                    <div><div style="color:white; font-weight:bold;">${i.name}</div><div style="color:var(--primary); font-size:12px;">${i.price}</div></div>
+                    <div style="color:white; font-weight:bold;">x${i.qty}</div>
+                </div>
+            `).join('');
+            
+            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            // FIXED: Only numbers
+            document.getElementById('summary-subtotal').innerHTML = total;
+            document.getElementById('summary-total').innerHTML = total;
+        }
+
+        function hideCart() { document.getElementById('cart-overlay').style.display = 'none'; }
+
+        // --- CHECKOUT LOGIC ---
+        function toggleOtherSociety(select) {
+            const otherInput = document.getElementById('cust-other-society');
+            otherInput.style.display = select.value === "Other" ? "block" : "none";
+        }
+
+        function getLocation() {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const link = `http://googleusercontent.com/maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    document.getElementById('cust-location-url').value = link;
+                    alert("Location Captured! ðŸ“");
+                }, () => alert("Location Access Denied"));
+            } else alert("Geolocation not supported");
+        }
+
+        function whatsappCheckout() {
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            let society = document.getElementById('cust-society').value;
+            if(society === "Other") society = document.getElementById('cust-other-society').value;
+            const flat = document.getElementById('cust-flat').value;
+            const loc = document.getElementById('cust-location-url').value;
+            const note = document.getElementById('cust-note').value; 
+            
+            if(!name || !society || !flat) return alert("Please fill Name, Address & Flat No.");
+
+            let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
+            msg += `ðŸ‘¤ *Name:* ${name}%0AðŸ“ž *Phone:* ${phone}%0AðŸ  *Addr:* ${flat}, ${society}%0A`;
+            if(loc) msg += `ðŸ“ *Loc:* ${loc}%0A`;
+            if(note) msg += `ðŸ“ *Note:* ${note}%0A`;
+
+            msg += `%0A*ITEMS:*%0A`;
+            // FIXED: Removed symbol from WA message too
+            cart.forEach(i => msg += `â€¢ ${i.name} x${i.qty} - ${i.price*i.qty}%0A`);
+            msg += `%0A*TOTAL: ${document.getElementById('cart-total').innerText}*`;
+            
+            window.open(`https://wa.me/${config.phone}?text=${msg}`);
+        }
+
+        // --- MUSIC ---
+        function initMusic() {
+            const audio = document.getElementById('bg-music');
+            if(settings.musicUrl) {
+                audio.src = settings.musicUrl;
+                audio.volume = 0; 
+            }
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const icon = document.getElementById('music-icon');
+            if(audio.paused) {
+                audio.play();
+                icon.className = "ri-pause-circle-line";
+                let vol = 0;
+                let fade = setInterval(() => {
+                    if(vol < document.getElementById('vol-control').value) {
+                        vol += 0.05;
+                        audio.volume = Math.min(vol, 1);
+                    } else clearInterval(fade);
+                }, 200);
+            } else {
+                audio.pause();
+                icon.className = "ri-disc-line";
+            }
+        }
+
+        function adjustVolume(val) {
+            document.getElementById('bg-music').volume = val;
+        }
+
+        function shareMenu() {
+            if(navigator.share) navigator.share({title: "FLAVRZ Menu", url: window.location.href});
+            else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Menu Link copied!");
+            }
+        }
+
+        init();
     </script>
 </body>
 </html>
