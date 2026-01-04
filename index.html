@@ -12,6 +12,7 @@
         :root {
             --primary: #E2FF00;
             --secondary: #00E676;
+            --danger: #FF0055;
             --bg-body: #050505;
             --bg-card: #121212;
             --bg-glass: rgba(18, 18, 18, 0.95);
@@ -22,117 +23,201 @@
 
         [data-theme="neon-blue"] { --primary: #00F2FF; }
         [data-theme="neon-red"] { --primary: #FF0055; }
+        [data-theme="neon-purple"] { --primary: #D500F9; }
+        [data-theme="neon-orange"] { --primary: #FF9100; }
+        [data-theme="neon-pink"] { --primary: #FF4081; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 120px; transition: 0.3s; }
+        body { background-color: var(--bg-body); color: var(--text-main); padding-bottom: 150px; transition: 0.3s; }
 
+        /* --- Brand Section --- */
         .brand-card { background: linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(5,5,5,0) 100%); padding: 30px 20px 10px; text-align: center; }
         .main-header { font-size: 3rem; font-weight: 900; color: var(--primary); text-transform: uppercase; text-shadow: 0 0 15px var(--primary); animation: float 3s ease-in-out infinite; cursor: pointer; user-select: none; }
         .tagline { font-size: 0.9rem; color: #aaa; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
-        .action-grid { display: flex; gap: 10px; justify-content: center; margin-bottom: 15px; }
-        .glow-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 15px; border-radius: 50px; font-size: 12px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; }
+        
+        .action-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 15px; }
+        .glow-btn { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 15px; border-radius: 50px; font-size: 11px; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 5px; transition: 0.3s; cursor: pointer; }
         .glow-btn:active { background: var(--primary); color: black; border-color: var(--primary); }
 
+        /* --- New Animated Profile Bar --- */
+        .glass-profile {
+            display: flex; align-items: center; gap: 15px;
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid var(--border-color);
+            margin: 0 20px 20px; padding: 12px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            animation: slideIn 1s ease-out;
+        }
+        .profile-img {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+        .profile-text { font-size: 12px; line-height: 1.3; color: #ddd; flex: 1; }
+        .profile-text strong { color: var(--primary); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- Pulsing Offer Alert --- */
+        .offer-pulse {
+            margin: 0 20px 20px;
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid var(--primary);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 13px;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(226, 255, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(226, 255, 0, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(226, 255, 0, 0); } 100% { box-shadow: 0 0 0 0 rgba(226, 255, 0, 0); } }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- Search & Sticky Header --- */
         .glass-header { background: var(--bg-glass); backdrop-filter: blur(12px); padding: 15px 20px; position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
         .search-container { flex: 1; background: #1f1f1f; display: flex; align-items: center; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .search-container input { background: none; border: none; outline: none; width: 100%; color: white; margin-left: 10px; }
+        .search-container input { background: none; border: none; outline: none; width: 100%; color: white; margin-left: 10px; font-size: 16px; }
 
-        .hero-banner { margin: 20px; background: linear-gradient(45deg, #1a1a1a, #000); border: 1px solid var(--border-color); border-radius: 20px; padding: 25px; box-shadow: var(--shadow-card); }
-        .hero-banner h2 { color: var(--primary); text-transform: uppercase; font-style: italic; }
-        .offers-banner { margin: 0 20px 20px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--primary); border-radius: 12px; padding: 12px 15px; display: flex; align-items: center; gap: 12px; color: var(--primary); }
-
-        .section-header { padding: 0 20px; font-size: 18px; font-weight: 800; margin: 25px 0 15px; border-left: 3px solid var(--primary); padding-left: 15px; text-transform: uppercase; }
-        .special-grid { display: flex; overflow-x: auto; gap: 15px; padding: 0 20px 20px; scrollbar-width: none; }
-        .special-card { min-width: 160px; background: var(--bg-card); border-radius: 12px; overflow: hidden; border: 1px solid var(--border-color); position: relative; }
-        .special-img { width: 100%; height: 110px; object-fit: cover; }
-        .special-badge { position: absolute; top: 5px; left: 5px; background: var(--primary); color: black; font-weight: bold; font-size: 10px; padding: 2px 5px; border-radius: 4px; }
-        
-        .cat-nav { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; position: sticky; top: 70px; z-index: 990; background: var(--bg-body); border-bottom: 1px solid #222; }
-        .chip { padding: 6px 16px; background: transparent; border: 1px solid #444; border-radius: 50px; font-size: 13px; color: #aaa; white-space: nowrap; transition: 0.3s; }
+        .cat-nav { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; position: sticky; top: 70px; z-index: 990; background: var(--bg-body); border-bottom: 1px solid #222; scrollbar-width: none; }
+        .chip { padding: 6px 16px; background: transparent; border: 1px solid #444; border-radius: 50px; font-size: 13px; color: #aaa; white-space: nowrap; transition: 0.3s; cursor: pointer; }
         .chip.active { background: var(--primary); color: black; border-color: var(--primary); font-weight: 700; }
 
+        /* --- Food Items --- */
+        .section-header { padding: 0 20px; font-size: 18px; font-weight: 800; margin: 25px 0 15px; border-left: 3px solid var(--primary); padding-left: 15px; text-transform: uppercase; }
+        
         .food-card-grid { display: flex; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color); padding: 10px; gap: 12px; margin: 0 20px 12px; position: relative; }
+        .food-card-grid.out-stock { opacity: 0.5; filter: grayscale(1); pointer-events: none; }
         .food-img-grid { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; background: #222; }
         .food-title-grid { font-size: 15px; font-weight: 700; color: white; }
         .food-price-grid { font-size: 15px; font-weight: 700; color: var(--primary); }
+        .item-badge { font-size: 10px; margin-bottom: 5px; display: inline-block; padding: 2px 6px; border-radius: 4px; font-weight: bold;}
+        .badge-veg { color: #00E676; border: 1px solid #00E676; }
+        .badge-nonveg { color: #FF0055; border: 1px solid #FF0055; }
 
-        .add-btn { background: var(--primary); color: black; border: none; padding: 6px 18px; border-radius: 6px; font-weight: 800; font-size: 12px; position: absolute; right: 10px; bottom: 10px; }
+        .add-btn { background: var(--primary); color: black; border: none; padding: 6px 18px; border-radius: 6px; font-weight: 800; font-size: 12px; position: absolute; right: 10px; bottom: 10px; cursor: pointer; }
         .qty-group { display: flex; align-items: center; background: #222; border: 1px solid #444; border-radius: 6px; height: 30px; position: absolute; right: 10px; bottom: 10px; }
-        .qty-btn { width: 25px; color: var(--primary); background: none; border: none; font-weight: bold; font-size: 16px; }
+        .qty-btn { width: 25px; color: var(--primary); background: none; border: none; font-weight: bold; font-size: 16px; cursor: pointer; }
         .qty-val { color: white; font-weight: bold; font-size: 13px; padding: 0 5px; }
+        .stock-label { position: absolute; right: 10px; top: 10px; color: #ff3b30; font-weight: bold; font-size: 10px; border: 1px solid #ff3b30; padding: 2px 5px; border-radius: 4px; display: none; }
+        .food-card-grid.out-stock .stock-label { display: block; }
 
-        .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--primary); color: black; padding: 15px 20px; border-radius: 12px; display: none; justify-content: space-between; align-items: center; z-index: 1001; font-weight: 900; box-shadow: 0 0 20px var(--primary); animation: float 4s infinite; }
-        
+        /* --- Music Control --- */
+        .music-panel { 
+            position: fixed; top: 110px; right: 10px; z-index: 900; 
+            background: rgba(0,0,0,0.8); border: 1px solid #333; 
+            padding: 5px; border-radius: 30px; 
+            display: flex; flex-direction: column; gap: 5px; 
+            align-items: center; backdrop-filter: blur(5px);
+        }
+        .music-btn { width: 30px; height: 30px; border-radius: 50%; background: #222; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; border: 1px solid #444; transition: 0.3s; }
+        .music-btn:active { background: var(--primary); color: black; }
+
+        /* --- Scratch Card --- */
+        .scratch-container {
+            position: relative; width: 100%; height: 100px;
+            background: linear-gradient(45deg, #111, #222);
+            border: 2px dashed var(--primary); border-radius: 10px;
+            margin-bottom: 15px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+        }
+        .scratch-content { text-align: center; color: var(--primary); font-weight: 800; font-size: 24px; }
+        .scratch-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #ccc;
+            background-image: radial-gradient(#999 15%, transparent 16%), radial-gradient(#999 15%, transparent 16%);
+            background-size: 10px 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: #333; font-weight: bold; font-size: 14px; transition: opacity 0.5s;
+        }
+        .scratch-overlay.revealed { opacity: 0; pointer-events: none; }
+
+        /* --- Cart Bar --- */
+        .cart-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--primary); color: black; padding: 15px 20px; border-radius: 12px; display: none; justify-content: space-between; align-items: center; z-index: 1001; font-weight: 900; box-shadow: 0 0 20px var(--primary); animation: float 4s infinite; cursor: pointer;}
+
+        /* --- Bottom Sheet --- */
         .overlay { position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 2000; display: none; }
-        .bottom-sheet { background: #111; width: 100%; border-radius: 20px 20px 0 0; padding: 25px; max-height: 90vh; position: absolute; bottom: 0; border-top: 1px solid #333; color: white; display: flex; flex-direction: column; }
-        
-        .input-v2, select.input-v2, textarea.input-v2 { background: #222; border: 1px solid #333; color: white; padding: 15px; width: 100%; border-radius: 8px; margin-bottom: 10px; outline: none; }
-        .btn-checkout { background: var(--secondary); color: black; font-weight: 800; padding: 15px; width: 100%; border: none; border-radius: 8px; font-size: 16px; margin-top: 10px; }
+        .bottom-sheet { background: #111; width: 100%; border-radius: 20px 20px 0 0; position: absolute; bottom: 0; border-top: 1px solid #333; color: white; display: flex; flex-direction: column; height: 90vh; }
+        .sheet-header { padding: 20px 25px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; }
+        .sheet-body { flex: 1; overflow-y: auto; padding: 20px 25px; } 
+        .sheet-footer { padding: 20px 25px; border-top: 1px solid #222; background: #111; } 
 
-        .music-pill { position: fixed; bottom: 85px; right: 20px; z-index: 1100; background: rgba(0,0,0,0.9); border: 1px solid #333; padding: 8px 15px; border-radius: 50px; display: flex; align-items: center; gap: 10px; }
-        .toggle-switch { width: 40px; height: 20px; background: #333; border-radius: 20px; position: relative; transition: 0.3s; }
+        .input-v2, select.input-v2, textarea.input-v2 { background: #222; border: 1px solid #333; color: white; padding: 15px; width: 100%; border-radius: 8px; margin-bottom: 10px; outline: none; font-size: 14px; }
+        .btn-checkout { background: var(--secondary); color: black; font-weight: 800; padding: 15px; width: 100%; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+
+        /* --- Admin --- */
+        .admin-tab-nav { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; overflow-x: auto; }
+        .admin-tab { padding: 8px 15px; color: #888; cursor: pointer; font-weight: bold; border-radius: 5px; white-space: nowrap; }
+        .admin-tab.active { background: var(--primary); color: black; }
+        
+        .toggle-switch { width: 40px; height: 20px; background: #333; border-radius: 20px; position: relative; transition: 0.3s; cursor: pointer; }
         .toggle-switch::after { content:''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: 0.3s; }
         .toggle-switch.active { background: var(--primary); }
         .toggle-switch.active::after { transform: translateX(20px); background: black; }
-        .admin-toggle-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; color: #ccc; font-size: 14px; }
+        .admin-toggle-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; color: #ccc; font-size: 14px; align-items: center; }
+
+        .admin-edit-card { background: #1a1a1a; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .btn-sm { padding: 5px 10px; font-size: 10px; border-radius: 4px; border: none; font-weight: bold; cursor: pointer; }
+        .btn-danger { background: #ff3b30; color: white; }
+        .btn-save { background: var(--secondary); color: black; }
 
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop><source src="" type="audio/mpeg"></audio>
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lo-fi-x-sleep-x-study-111718.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="brand-card">
         <h1 class="main-header" onclick="handleSecretClick()">FLAVRZ</h1>
         <div class="tagline">FRESH & FLAVOURFUL</div>
+        
         <div class="action-grid">
-            <button onclick="changeTheme()" class="glow-btn"><i class="ri-palette-line"></i> Change Theme</button>
-            <a href="#" class="glow-btn" onclick="shareMenu()"><i class="ri-share-forward-line"></i> Share Menu</a>
+            <button onclick="changeTheme()" class="glow-btn"><i class="ri-palette-line"></i> Theme</button>
+            <button onclick="shareMenu()" class="glow-btn"><i class="ri-share-forward-line"></i> Share Menu</button>
+            <button onclick="openLink(settings.mapLink)" class="glow-btn"><i class="ri-map-pin-2-fill"></i> Locate Us</button>
+            <button onclick="openLink(settings.groupLink)" class="glow-btn" style="border-color:#25D366; color:#25D366;"><i class="ri-whatsapp-fill"></i> Join Group</button>
         </div>
+        
         <div id="contact-grid-display" style="display:flex; justify-content:center; gap:10px;"></div>
     </div>
 
-    <div class="glass-header">
+    <div class="glass-profile">
+        <img src="" id="profile-img-display" class="profile-img" onerror="this.src='https://placehold.co/100x100/333/E2FF00?text=JP'">
+        <div class="profile-text" id="welcome-text-display"></div>
+    </div>
+
+    <div class="offer-pulse" id="offers-container">
+        <i class="ri-gift-2-fill"></i> <span id="offer-text-display">WIN DISCOUNT ON CHINESE > ₹300!</span>
+    </div>
+
+    <div class="glass-header" id="search-bar-container">
         <div class="search-container">
             <i class="ri-search-2-line" style="color:#888"></i>
-            <input type="text" id="menuSearch" placeholder="Search dishes..." onkeyup="filterMenu()">
+            <input type="text" id="menuSearch" placeholder="Search dishes..." oninput="filterMenu()">
         </div>
         <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
              <label style="display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa;">
                 <input type="checkbox" id="veg-toggle-cb" onchange="filterMenu()"> Veg Only
             </label>
-            </div>
-    </div>
-
-    <div id="offers-container" class="offers-banner" style="display:none">
-        <i class="ri-fire-fill"></i> <span id="offer-text-display"></span>
-    </div>
-
-    <div id="hero-banner" class="hero-banner" style="display:none">
-        <h2>Welcome!</h2>
-        <p id="welcome-text-display"></p>
-    </div>
-
-    <div id="gallery-section-container" style="display:none">
-        <div class="section-header">Our Team</div>
-        <div class="special-grid" id="team-gallery-scroll"></div>
-    </div>
-
-    <div id="special-section-container" style="display:none">
-        <div class="section-header">Chef's Specials</div>
-        <div class="special-grid" id="special-grid-display"></div>
+        </div>
     </div>
 
     <div class="cat-nav" id="cat-nav"></div>
-    <div id="menu-list" style="padding-bottom: 50px;"></div>
+    <div id="menu-list"></div>
 
-    <div class="music-pill">
-        <div onclick="toggleMusic()" style="cursor: pointer; display: flex; align-items: center; gap: 5px;">
-            <i class="ri-disc-line" id="music-icon" style="color:white"></i> 
-            <span style="font-size: 10px; color: white;">Music</span>
+    <div class="music-panel">
+        <div class="music-btn" onclick="toggleMusic()">
+            <i class="ri-play-fill" id="music-play-icon" style="color:white"></i>
         </div>
-        <input type="range" id="vol-control" min="0" max="1" step="0.1" value="0.5" style="width: 50px;" oninput="adjustVolume(this.value)">
+        <div class="music-btn" onclick="musicVol(0.1)"><i class="ri-add-line"></i></div>
+        <div class="music-btn" onclick="musicVol(-0.1)"><i class="ri-subtract-line"></i></div>
     </div>
 
     <div class="cart-bar" id="cart-bar" onclick="showCart()">
@@ -140,23 +225,35 @@
             <div style="background: black; color:var(--primary); width:25px; height:25px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:12px;" id="cart-count">0</div>
             <div style="font-size: 14px;">VIEW CART</div>
         </div>
-        <div style="font-size: 18px;"><span id="cart-total">0</span></div>
+        <div style="font-size: 18px; font-weight: 800;"><span id="cart-total">0</span></div>
     </div>
 
     <div class="overlay" id="cart-overlay">
         <div class="bottom-sheet" id="cart-sheet">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            
+            <div class="sheet-header">
                 <h2 style="color:var(--primary);">CHECKOUT</h2>
                 <i class="ri-close-circle-fill" style="font-size: 28px; cursor: pointer;" onclick="hideCart()"></i>
             </div>
             
-            <div style="overflow-y: auto; flex: 1;">
+            <div class="sheet-body">
+                
+                <div id="scratch-area" style="display:none;">
+                    <div style="font-size:12px; color:#aaa; margin-bottom:5px;">✨ Chinese Special Offer (> ₹300)</div>
+                    <div class="scratch-container" onclick="revealScratch()">
+                        <div class="scratch-content" id="scratch-win-text">WIN</div>
+                        <div class="scratch-overlay" id="scratch-cover">
+                            <i class="ri-magic-line"></i>  TAP TO SCRATCH
+                        </div>
+                    </div>
+                </div>
+
                 <div id="cart-items-list" style="margin-bottom: 20px;"></div>
                 
                 <div style="background: #222; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
-                    <div style="display:flex; justify-content:space-between; color:#aaa; font-size:14px;"><span>Subtotal</span><span id="summary-subtotal">0</span></div>
-                    <div style="display:flex; justify-content:space-between; color:var(--secondary); font-size:14px;"><span>Discount</span><span id="summary-discount">-0</span></div>
-                    <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-top:10px; color:var(--primary);"><span>Total</span><span id="summary-total">0</span></div>
+                    <div style="display:flex; justify-content:space-between; color:#aaa; font-size:14px;"><span>Subtotal</span><span><span id="summ-sub">0</span></span></div>
+                    <div style="display:flex; justify-content:space-between; color:var(--secondary); font-size:14px; margin: 5px 0;"><span>Scratch Discount</span><span>- <span id="summ-disc">0</span></span></div>
+                    <div style="display:flex; justify-content:space-between; font-size:18px; font-weight:bold; margin-top:10px; color:var(--primary); border-top:1px solid #444; padding-top:10px;"><span>Total to Pay</span><span><span id="summ-total">0</span></span></div>
                 </div>
 
                 <div style="margin-bottom: 15px;">
@@ -172,18 +269,20 @@
                         <option value="Other">Other (Type Below)</option>
                     </select>
                     <input type="text" class="input-v2" id="cust-other-society" placeholder="Enter Society Name" style="display: none;">
-                    
                     <input type="text" class="input-v2" id="cust-flat" placeholder="Flat / Tower No.">
                     
-                    <button onclick="getLocation()" style="width:100%; padding:12px; background:#333; color:var(--primary); border:1px solid var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px;">
+                    <button onclick="getLocation()" style="width:100%; padding:12px; background:#333; color:var(--primary); border:1px solid var(--primary); border-radius:8px; display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:10px; cursor: pointer;">
                         <i class="ri-map-pin-user-fill"></i> Share Current Location
                     </button>
                     <input type="hidden" id="cust-location-url">
 
-                    <textarea class="input-v2" id="cust-note" placeholder="Khana kaisa banana hai? (Jaise: Thoda teekha, Normal, Namak kamm...)" style="height: 80px; resize: none;"></textarea>
+                    <textarea class="input-v2" id="cust-note" placeholder="Cooking instructions..." style="height: 60px; resize: none;"></textarea>
                 </div>
             </div>
-            <button class="btn-checkout" onclick="whatsappCheckout()">ORDER ON WHATSAPP</button>
+
+            <div class="sheet-footer">
+                <button class="btn-checkout" onclick="whatsappCheckout()">ORDER ON WHATSAPP</button>
+            </div>
         </div>
     </div>
 
@@ -198,154 +297,402 @@
     </div>
 
     <div class="overlay" id="admin-overlay" style="align-items: flex-end;">
-        <div class="bottom-sheet" id="admin-sheet">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+        <div class="bottom-sheet" style="height: 100vh; border-radius: 0;">
+            <div class="sheet-header">
                 <h2 style="color:var(--primary);">ADMIN PANEL</h2>
-                <i class="ri-close-line" style="font-size: 28px;" onclick="document.getElementById('admin-overlay').style.display='none'"></i>
+                <i class="ri-close-line" style="font-size: 28px; cursor: pointer;" onclick="document.getElementById('admin-overlay').style.display='none'; location.reload();"></i>
             </div>
-            <div style="overflow-y: auto; padding-bottom: 20px;">
-                <h4 style="color:var(--primary); margin-bottom:10px;">Visibility Settings</h4>
-                <div class="admin-toggle-row" onclick="toggleSetting('showSearch')"><span>Search Bar</span><div class="toggle-switch" id="toggle-search"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showWelcome')"><span>Welcome Banner</span><div class="toggle-switch" id="toggle-welcome"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showOffers')"><span>Offers Banner</span><div class="toggle-switch" id="toggle-offers"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showSpecial')"><span>Special Section</span><div class="toggle-switch" id="toggle-special"></div></div>
-                <div class="admin-toggle-row" onclick="toggleSetting('showGallery')"><span>Team Section</span><div class="toggle-switch" id="toggle-gallery"></div></div>
+            
+            <div class="admin-tab-nav" style="padding: 10px 25px;">
+                <div class="admin-tab active" onclick="switchAdminTab('general')" id="tab-btn-general">General</div>
+                <div class="admin-tab" onclick="switchAdminTab('profile')" id="tab-btn-profile">Profile & Visuals</div>
+                <div class="admin-tab" onclick="switchAdminTab('menu')" id="tab-btn-menu">Menu Editor</div>
+            </div>
 
-                <h4 style="color:var(--primary); margin:20px 0 10px;">Media & Links</h4>
-                <input type="text" id="admin-upi-id" class="input-v2" placeholder="UPI ID">
-                <input type="text" id="admin-music-url" class="input-v2" placeholder="Music URL (MP3)">
-                <input type="text" id="admin-qr-url" class="input-v2" placeholder="QR Image URL">
-                
-                <h4 style="color:var(--primary); margin:20px 0 10px;">Texts</h4>
-                <textarea id="edit-welcome-text" class="input-v2" placeholder="Welcome Text"></textarea>
-                <input type="text" id="edit-offer-text" class="input-v2" placeholder="Offer Text">
+            <div class="sheet-body">
+                <div id="admin-tab-general">
+                    <h4 style="color:var(--primary); margin-bottom:10px;">Links & Maps</h4>
+                    <input type="text" id="admin-map-url" class="input-v2" placeholder="Google Maps Link">
+                    <input type="text" id="admin-group-url" class="input-v2" placeholder="WhatsApp Group Link">
+                    <input type="text" id="admin-music-url" class="input-v2" placeholder="Music MP3 URL">
+                    
+                    <button onclick="saveAdminSettings()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">SAVE SETTINGS</button>
+                    <button onclick="factoryReset()" style="width:100%; background:#ff3b30; color:white; padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">FACTORY RESET</button>
+                </div>
 
-                <button onclick="saveAdminSettings()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">SAVE SETTINGS</button>
-                <button onclick="factoryReset()" style="width:100%; background:#ff3b30; color:white; padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">FACTORY RESET (FIX MENU)</button>
+                <div id="admin-tab-profile" style="display: none;">
+                    <h4 style="color:var(--primary); margin-bottom:10px;">Welcome Section</h4>
+                    <label style="color:#aaa; font-size:12px;">Profile Image URL</label>
+                    <input type="text" id="admin-profile-img" class="input-v2" placeholder="Paste Image Link Here">
+                    
+                    <label style="color:#aaa; font-size:12px;">Welcome Message</label>
+                    <textarea id="edit-welcome-text" class="input-v2" placeholder="Welcome Text" style="height:100px;"></textarea>
+
+                    <h4 style="color:var(--primary); margin:20px 0 10px;">Offer Banner</h4>
+                    <input type="text" id="edit-offer-text" class="input-v2" placeholder="Offer Text">
+                    <div class="admin-toggle-row" onclick="toggleSetting('showSearch')"><span>Search Bar</span><div class="toggle-switch" id="toggle-search"></div></div>
+
+                    <button onclick="saveAdminSettings()" style="width:100%; background:var(--primary); padding:15px; border:none; border-radius:8px; font-weight:bold; margin-top:10px;">SAVE SETTINGS</button>
+                </div>
+
+                <div id="admin-tab-menu" style="display: none;">
+                    <div style="border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 15px;">
+                        <h4 style="margin-bottom: 10px; color: var(--secondary);">Add New Category</h4>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="text" id="new-cat-name" class="input-v2" placeholder="Category Name" style="margin:0;">
+                            <button onclick="addNewCategory()" class="btn-sm btn-save" style="width: 80px;">ADD</button>
+                        </div>
+                    </div>
+                    <div id="admin-menu-container"></div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- DATA DEFAULTS (JASSI PAJJI MENU) ---
+        // --- DATA DEFAULTS ---
         const DEFAULT_MENU = {
             "Momos & Spring Rolls": [
-                { name: "Veg Momos (Steamed)", price: 60, type: "veg", desc: "10 pieces of juicy steamed vegetable momos.", img: "images/veg-momos.jpg" },
-                { name: "Paneer Momos", price: 80, type: "veg", desc: "Steamed momos filled with fresh paneer.", img: "images/paneer-momos.jpg" },
-                { name: "Chicken Momos", price: 90, type: "non-veg", desc: "Juicy chicken filled steamed dumplings.", img: "images/chicken-momos.jpg" },
-                { name: "Veg Crispy Momos", price: 70, type: "veg", desc: "Fried crunchy momos with dipping sauce.", img: "images/veg-crispy-momos.jpg" },
-                { name: "Crispy Paneer Momos", price: 80, type: "veg", desc: "Crunchy fried paneer momos.", img: "images/crispy-paneer-momos.jpg" },
-                { name: "Veg Spring Rolls", price: 60, type: "veg", desc: "Classic rolls stuffed with stir-fried veggies.", img: "images/veg-spring-rolls.jpg" },
-                { name: "Crispy Spring Rolls", price: 80, type: "veg", desc: "Extra crunchy vegetable spring rolls.", img: "images/crispy-spring-rolls.jpg" }
-            ],
-            "Combos": [
-                { name: "Chicken + Rice", price: 100, type: "non-veg", desc: "Comforting chicken curry with steamed rice.", img: "images/chicken-rice-combo.jpg" },
-                { name: "Rahra Chicken + Parantha", price: 180, type: "non-veg", desc: "Spicy Rahra chicken served with Lachha Parantha.", img: "images/rahra-combo.jpg" },
-                { name: "Rice + Manchurian", price: 99, type: "veg", desc: "Veg Fried Rice served with Veg Manchurian.", img: "images/rice-manchurian.jpg" },
-                { name: "Chowmein + Manchurian", price: 99, type: "veg", desc: "Veg Chowmein served with Veg Manchurian.", img: "images/noodle-manchurian.jpg" },
-                { name: "Rice/Noodle + Chilli Cheese", price: 120, type: "veg", desc: "Fried Rice or Chowmein with spicy Chilli Cheese Gravy.", img: "images/chinese-combo-veg.jpg" },
-                { name: "Rice/Noodle + Chilli Chicken", price: 120, type: "non-veg", desc: "Fried Rice or Chowmein with Chilli Chicken Gravy.", img: "images/chinese-combo-nonveg.jpg" }
+                { name: "Veg Momos (Steamed)", price: 60, type: "veg", desc: "10 pieces juicy steamed.", img: "", inStock: true },
+                { name: "Paneer Momos", price: 80, type: "veg", desc: "Fresh paneer filled.", img: "", inStock: true },
+                { name: "Chicken Momos", price: 90, type: "non-veg", desc: "Juicy chicken dumplings.", img: "", inStock: true },
+                { name: "Veg Crispy Momos", price: 70, type: "veg", desc: "Fried crunchy momos.", img: "", inStock: true },
+                { name: "Veg Spring Rolls", price: 60, type: "veg", desc: "Classic stir-fried rolls.", img: "", inStock: true }
             ],
             "Chinese": [
-                { name: "Veg Fried Rice", price: 80, type: "veg", desc: "Wok-tossed rice with fresh veggies.", img: "images/veg-fried-rice.jpg" },
-                { name: "Veg Chowmein", price: 80, type: "veg", desc: "Stir-fried noodles with crunchy vegetables.", img: "images/veg-chowmein.jpg" },
-                { name: "Veg Manchurian", price: 80, type: "veg", desc: "Vegetable balls in spicy soy gravy.", img: "images/veg-manchurian.jpg" },
-                { name: "Chili Cheese Gravy", price: 100, type: "veg", desc: "Spicy cottage cheese in rich gravy.", img: "images/chili-cheese.jpg" },
-                { name: "Chilli Chicken Gravy", price: 120, type: "non-veg", desc: "Tender chicken in hot chilli sauce.", img: "images/chilli-chicken.jpg" },
-                { name: "Chicken Fried Rice", price: 120, type: "non-veg", desc: "Classic fried rice with chicken chunks.", img: "images/chicken-fried-rice.jpg" },
-                { name: "Chicken Chowmein", price: 120, type: "non-veg", desc: "Noodles tossed with chicken and spices.", img: "images/chicken-chowmein.jpg" }
+                { name: "Veg Fried Rice", price: 80, type: "veg", desc: "Wok-tossed fresh veggies.", img: "", inStock: true },
+                { name: "Veg Chowmein", price: 80, type: "veg", desc: "Stir-fried noodles.", img: "", inStock: true },
+                { name: "Veg Manchurian", price: 80, type: "veg", desc: "Veg balls in spicy soy gravy.", img: "", inStock: true },
+                { name: "Chilli Cheese Gravy", price: 100, type: "veg", desc: "Spicy cottage cheese.", img: "", inStock: true },
+                { name: "Chilli Chicken Gravy", price: 120, type: "non-veg", desc: "Chicken in hot chilli sauce.", img: "", inStock: true },
+                { name: "Chicken Fried Rice", price: 120, type: "non-veg", desc: "Classic chicken fried rice.", img: "", inStock: true },
+                { name: "Chicken Chowmein", price: 120, type: "non-veg", desc: "Noodles with chicken.", img: "", inStock: true }
+            ],
+            "Combos": [
+                { name: "Chicken + Rice", price: 100, type: "non-veg", desc: "Chicken curry with rice.", img: "", inStock: true },
+                { name: "Rice + Manchurian", price: 99, type: "veg", desc: "Fried Rice with Manchurian.", img: "", inStock: true },
+                { name: "Chowmein + Manchurian", price: 99, type: "veg", desc: "Chowmein with Manchurian.", img: "", inStock: true }
             ],
             "Rice & Breads": [
-                { name: "Plain Rice", price: 50, type: "veg", desc: "Steamed fluffy basmati rice.", img: "images/plain-rice.jpg" },
-                { name: "Jeera Rice", price: 60, type: "veg", desc: "Basmati rice tempered with cumin seeds.", img: "images/jeera-rice.jpg" },
-                { name: "Lachha Parantha", price: 30, type: "veg", desc: "Layered crispy whole wheat bread.", img: "images/lachha-parantha.jpg" }
-            ],
-            "Pasta": [
-                { name: "Red Pasta", price: 80, type: "veg", desc: "Pasta in tangy tomato arrabbiata sauce.", img: "images/red-pasta.jpg" },
-                { name: "White Pasta", price: 80, type: "veg", desc: "Creamy cheesy white sauce pasta.", img: "images/white-pasta.jpg" },
-                { name: "Chicken Pasta", price: 100, type: "non-veg", desc: "Pasta with grilled chicken pieces.", img: "images/chicken-pasta.jpg" }
-            ],
-            "Fish Specialties": [
-                { name: "Fish Fry (250g)", price: 250, type: "non-veg", desc: "Golden fried fish with spices.", img: "images/fish-fry.jpg" },
-                { name: "Crispy Fish Fry", price: 260, type: "non-veg", desc: "Extra crispy battered fish.", img: "images/crispy-fish.jpg" },
-                { name: "Fish Popcorn", price: 280, type: "non-veg", desc: "Bite-sized crunchy fish pops.", img: "images/fish-popcorn.jpg" },
-                { name: "Fish Fingers", price: 300, type: "non-veg", desc: "Classic breaded fish fingers.", img: "images/fish-fingers.jpg" },
-                { name: "Chilli Fish", price: 300, type: "non-veg", desc: "Fish tossed in spicy chilli sauce.", img: "images/chilli-fish.jpg" }
+                { name: "Plain Rice", price: 50, type: "veg", desc: "Steamed fluffy rice.", img: "", inStock: true },
+                { name: "Jeera Rice", price: 60, type: "veg", desc: "Cumin tempered rice.", img: "", inStock: true },
+                { name: "Lachha Parantha", price: 30, type: "veg", desc: "Layered crispy bread.", img: "", inStock: true }
             ],
             "Chicken Specialties": [
-                { name: "Butter Chicken", price: 180, type: "non-veg", desc: "Creamy rich tomato gravy chicken.", img: "images/butter-chicken.jpg" },
-                { name: "Steam Chicken", price: 100, type: "non-veg", desc: "Healthy steamed chicken with herbs.", img: "images/steam-chicken.jpg" },
-                { name: "Lemon Chicken", price: 120, type: "non-veg", desc: "Tangy lemon flavored chicken.", img: "images/lemon-chicken.jpg" },
-                { name: "Kali Mirch Chicken", price: 120, type: "non-veg", desc: "Chicken cooked with black pepper.", img: "images/kali-mirch.jpg" },
-                { name: "Chilli Chicken Dry", price: 180, type: "non-veg", desc: "Spicy stir-fried chicken appetizer.", img: "images/chilli-chicken-dry.jpg" },
-                { name: "Homestyle Gravy Chicken", price: 180, type: "non-veg", desc: "Traditional home-style chicken curry.", img: "images/homestyle-chicken.jpg" },
-                { name: "Chicken Pakoda", price: 180, type: "non-veg", desc: "Fried crispy chicken fritters.", img: "images/chicken-pakoda.jpg" },
-                { name: "Crispy Chicken", price: 180, type: "non-veg", desc: "Crunchy fried chicken pieces.", img: "images/crispy-chicken.jpg" },
-                { name: "Popcorn Chicken", price: 180, type: "non-veg", desc: "Small bites of fried chicken.", img: "images/popcorn-chicken.jpg" }
+                { name: "Butter Chicken", price: 180, type: "non-veg", desc: "Rich tomato gravy.", img: "", inStock: true },
+                { name: "Lemon Chicken", price: 120, type: "non-veg", desc: "Tangy lemon flavor.", img: "", inStock: true },
+                { name: "Kali Mirch Chicken", price: 120, type: "non-veg", desc: "Black pepper chicken.", img: "", inStock: true },
+                { name: "Chilli Chicken Dry", price: 180, type: "non-veg", desc: "Spicy appetizer.", img: "", inStock: true },
+                { name: "Chicken Pakoda", price: 180, type: "non-veg", desc: "Crispy chicken fritters.", img: "", inStock: true }
+            ],
+            "Fish Specialties": [
+                { name: "Fish Fry (250g)", price: 250, type: "non-veg", desc: "Golden fried fish.", img: "", inStock: true },
+                { name: "Fish Fingers", price: 300, type: "non-veg", desc: "Breaded fish sticks.", img: "", inStock: true },
+                { name: "Chilli Fish", price: 300, type: "non-veg", desc: "Spicy chilli sauce fish.", img: "", inStock: true }
             ],
             "Burgers & Rolls": [
-                { name: "Aloo Tikki Burger", price: 30, type: "veg", desc: "Classic potato patty burger.", img: "images/aloo-tikki.jpg" },
-                { name: "Chicken Burger", price: 60, type: "non-veg", desc: "Spicy chicken patty burger.", img: "images/chicken-burger.jpg" },
-                { name: "Double Decker Burger", price: 40, type: "veg", desc: "Double patty for extra hunger.", img: "images/double-decker.jpg" },
-                { name: "Masala Chicken Roll", price: 80, type: "non-veg", desc: "Spicy chicken wrapped in roll.", img: "images/chicken-roll.jpg" }
+                { name: "Aloo Tikki Burger", price: 30, type: "veg", desc: "Potato patty burger.", img: "", inStock: true },
+                { name: "Chicken Burger", price: 60, type: "non-veg", desc: "Spicy chicken burger.", img: "", inStock: true },
+                { name: "Masala Chicken Roll", price: 80, type: "non-veg", desc: "Chicken wrap.", img: "", inStock: true }
             ],
             "Soups": [
-                { name: "Mix Veg Soup", price: 30, type: "veg", desc: "Healthy mixed vegetable soup.", img: "images/veg-soup.jpg" },
-                { name: "Chana Soup (Black)", price: 40, type: "veg", desc: "Healthy black chana soup.", img: "images/chana-soup.jpg" },
-                { name: "Chicken Soup", price: 50, type: "non-veg", desc: "Warm chicken broth.", img: "images/chicken-soup.jpg" }
-            ],
-            "Snacks": [
-                { name: "Mix Veg Pakoda", price: 60, type: "veg", desc: "Crispy vegetable fritters.", img: "images/veg-pakoda.jpg" },
-                { name: "Paneer Pakoda", price: 100, type: "veg", desc: "Fried cottage cheese snacks.", img: "images/paneer-pakoda.jpg" },
-                { name: "Peri Peri French Fries", price: 60, type: "veg", desc: "Spicy dusted fries.", img: "images/fries.jpg" },
-                { name: "Hara Bhara Kabab", price: 80, type: "veg", desc: "Healthy spinach and green pea patties.", img: "images/hara-bhara.jpg" },
-                { name: "Chilli Cheese Dry", price: 180, type: "veg", desc: "Spicy cottage cheese chunks tossed with peppers.", img: "images/chilli-cheese-dry.jpg" }
+                { name: "Mix Veg Soup", price: 30, type: "veg", desc: "Healthy veg soup.", img: "", inStock: true },
+                { name: "Chicken Soup", price: 50, type: "non-veg", desc: "Warm chicken broth.", img: "", inStock: true }
             ],
             "Beverages": [
-                { name: "Masala Tea", price: 20, type: "veg", desc: "Hot masala chai.", img: "images/tea.jpg" },
-                { name: "Hot Coffee", price: 30, type: "veg", desc: "Classic hot coffee.", img: "images/coffee.jpg" },
-                { name: "Mojito", price: 40, type: "veg", desc: "Refreshing mint drink.", img: "images/mojito.jpg" },
-                { name: "Cold Coffee", price: 50, type: "veg", desc: "Chilled creamy coffee.", img: "images/cold-coffee.jpg" },
-                { name: "Cold Drink (MRP)", price: 20, type: "veg", desc: "As per print price (MRP).", img: "images/cold-drink.jpg" }
+                { name: "Masala Tea", price: 20, type: "veg", desc: "Hot masala chai.", img: "", inStock: true },
+                { name: "Cold Coffee", price: 50, type: "veg", desc: "Chilled creamy coffee.", img: "", inStock: true },
+                { name: "Mojito", price: 40, type: "veg", desc: "Mint drink.", img: "", inStock: true }
             ]
         };
 
         const config = { phone: "916230146463", pin: "212282" }; 
-        
+        const DEFAULT_MUSIC = "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=lo-fi-x-sleep-x-study-111718.mp3";
+
         let settings = JSON.parse(localStorage.getItem('flavrz_settings')) || {
-            showSearch: true, showWelcome: true, showOffers: true, showSpecial: true, showGallery: true,
-            welcomeText: "I am your <strong>Jassi Pajji</strong>. Running National Food Court earlier, now served with new love as <strong>FLAVRZ</strong>.", 
-            offerText: "Flat 10% OFF on Chinese (Above 300)",
-            upiId: "", musicUrl: "", qrCode: "",
+            showSearch: true,
+            welcomeText: "Welcome to <strong>FLAVRZ</strong>. Fresh & Flavourful food by Jassi Pajji.", 
+            profileImg: "https://placehold.co/100x100/333/E2FF00?text=JP",
+            offerText: "WIN DISCOUNT ON CHINESE > ₹300!",
+            mapLink: "https://maps.google.com", 
+            groupLink: "https://chat.whatsapp.com",
+            musicUrl: DEFAULT_MUSIC,
             contactNumbers: ["9816972000", "6230146463"]
         };
         
-        // Force load default menu if empty
         let menu = JSON.parse(localStorage.getItem('flavrz_menu'));
-        if (!menu || !menu["Momos & Spring Rolls"]) {
+        if (!menu || Object.keys(menu).length < 3) {
             menu = DEFAULT_MENU;
             localStorage.setItem('flavrz_menu', JSON.stringify(menu));
         }
 
         let cart = [];
         let adminTapCount = 0;
-        let themes = ['neon-yellow', 'neon-blue', 'neon-red'];
+        let themes = ['neon-yellow', 'neon-blue', 'neon-red', 'neon-purple', 'neon-orange', 'neon-pink'];
         let currentThemeIdx = 0;
+        let scratchWonAmount = 0;
+        let isScratched = false;
 
-        // --- INIT ---
         function init() {
             renderUI();
             renderMenu();
-            initMusic();
+            
+            // Music Setup
+            const audio = document.getElementById('bg-music');
+            // If user has set a custom URL in admin, use it, else use Default
+            const source = settings.musicUrl && settings.musicUrl.length > 5 ? settings.musicUrl : DEFAULT_MUSIC;
+            audio.src = source;
+            audio.volume = 0.1;
+            audio.load();
         }
 
-        // --- THEME ---
         function changeTheme() {
             currentThemeIdx = (currentThemeIdx + 1) % themes.length;
             document.documentElement.setAttribute('data-theme', themes[currentThemeIdx]);
         }
 
-        // --- ADMIN ACCESS (5 TAPS) ---
+        function openLink(url) {
+            if(url) window.open(url, '_blank');
+            else alert("Link not set in Admin.");
+        }
+
+        // --- UI RENDERING ---
+        function renderUI() {
+            document.getElementById('profile-img-display').src = settings.profileImg || 'https://placehold.co/100x100/333/E2FF00?text=JP';
+            document.getElementById('welcome-text-display').innerHTML = settings.welcomeText;
+            document.getElementById('offer-text-display').innerText = settings.offerText;
+            document.getElementById('search-bar-container').style.display = settings.showSearch ? 'block' : 'none';
+            
+            const contactDiv = document.getElementById('contact-grid-display');
+            contactDiv.innerHTML = settings.contactNumbers.map(n => 
+                `<a href="tel:${n}" class="glow-btn"><i class="ri-phone-fill"></i> ${n}</a>`
+            ).join('');
+        }
+
+        function renderMenu() {
+            const list = document.getElementById('menu-list');
+            const nav = document.getElementById('cat-nav');
+            list.innerHTML = ""; nav.innerHTML = "";
+
+            Object.entries(menu).forEach(([cat, items]) => {
+                nav.innerHTML += `<div class="chip" onclick="document.getElementById('cat-${cat}').scrollIntoView({behavior: 'smooth'})">${cat}</div>`;
+                
+                let itemsHtml = items.map((item, idx) => {
+                    if(item.inStock === undefined) item.inStock = true;
+                    const qty = cart.find(x => x.name === item.name)?.qty || 0;
+                    const isVeg = item.type === 'veg';
+                    const stockClass = item.inStock ? '' : 'out-stock';
+                    
+                    return `
+                    <div class="food-card-grid ${stockClass}">
+                        <div class="stock-label">OUT OF STOCK</div>
+                        <div class="food-img-grid">
+                            <img src="${item.img || 'https://via.placeholder.com/90?text=Food'}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" onerror="this.src='https://via.placeholder.com/90?text=No+Img'">
+                        </div>
+                        <div style="flex:1;">
+                            <div class="food-title-grid">${item.name}</div>
+                            <span class="item-badge ${isVeg ? 'badge-veg' : 'badge-nonveg'}">
+                                ${isVeg ? '● VEG' : '● NON-VEG'}
+                            </span>
+                            <div class="food-price-grid">${item.price}</div>
+                            <div style="color:#888; font-size:11px; line-height:1.2; margin-top:5px;">${item.desc || ''}</div>
+                        </div>
+                        ${item.inStock ? 
+                            (qty > 0 ? 
+                            `<div class="qty-group"><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, -1)">-</button><span class="qty-val">${qty}</span><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, 1)">+</button></div>` :
+                            `<button class="add-btn" onclick="updateCart('${cat}', ${idx}, 1)">ADD</button>`)
+                        : ''}
+                    </div>`;
+                }).join('');
+
+                list.innerHTML += `<div id="cat-${cat}" class="section-header">${cat}</div><div>${itemsHtml}</div>`;
+            });
+        }
+
+        function filterMenu() {
+            const term = document.getElementById('menuSearch').value.toLowerCase();
+            const vegOnly = document.getElementById('veg-toggle-cb').checked;
+            document.querySelectorAll('.food-card-grid').forEach(card => {
+                const name = card.querySelector('.food-title-grid').innerText.toLowerCase();
+                const typeText = card.querySelector('.item-badge').innerText.toLowerCase();
+                const isVeg = typeText.includes('veg') && !typeText.includes('non');
+                let visible = name.includes(term);
+                if(vegOnly && !isVeg) visible = false;
+                card.style.display = visible ? 'flex' : 'none';
+            });
+        }
+
+        // --- CART LOGIC ---
+        function updateCart(cat, idx, change) {
+            const item = menu[cat][idx];
+            let existing = cart.find(x => x.name === item.name);
+            if(existing) {
+                existing.qty += change;
+                if(existing.qty <= 0) cart = cart.filter(x => x.name !== item.name);
+            } else if(change > 0) {
+                cart.push({ ...item, qty: 1 });
+            }
+            // Reset scratch if not eligible anymore
+            const { chineseTotal } = getTotals();
+            if(chineseTotal <= 300) { isScratched = false; scratchWonAmount = 0; }
+            updateCartUI();
+            renderMenu(); 
+        }
+
+        function getTotals() {
+            let subtotal = 0;
+            let chineseTotal = 0;
+            cart.forEach(i => {
+                let cost = i.price * i.qty;
+                subtotal += cost;
+                // STRICT CHINESE LOGIC
+                // Check if current item exists in "Chinese" category of Menu
+                let isChineseItem = false;
+                if(menu['Chinese']) {
+                    isChineseItem = menu['Chinese'].some(cItem => cItem.name === i.name);
+                }
+                if(isChineseItem) chineseTotal += cost;
+            });
+
+            let discount = 0;
+            if(chineseTotal > 300 && isScratched) {
+                discount = scratchWonAmount;
+            }
+            return { subtotal, discount, total: subtotal - discount, chineseTotal };
+        }
+
+        function updateCartUI() {
+            const { total } = getTotals();
+            const count = cart.reduce((sum, i) => sum + i.qty, 0);
+            const bar = document.getElementById('cart-bar');
+            bar.style.display = count > 0 ? 'flex' : 'none';
+            document.getElementById('cart-count').innerText = count;
+            document.getElementById('cart-total').innerHTML = total;
+        }
+
+        // --- SCRATCH CARD LOGIC ---
+        function revealScratch() {
+            if(isScratched) return;
+            let win = Math.floor(Math.random() * (20 - 5 + 1)) + 5; 
+            document.getElementById('scratch-win-text').innerText = "₹" + win;
+            document.getElementById('scratch-cover').classList.add('revealed');
+            isScratched = true;
+            scratchWonAmount = win;
+            const { total, discount } = getTotals();
+            document.getElementById('summ-disc').innerHTML = discount;
+            document.getElementById('summ-total').innerHTML = total;
+            setTimeout(() => alert(`Won ₹${win} discount on Chinese items!`), 300);
+        }
+
+        function showCart() {
+            document.getElementById('cart-overlay').style.display = 'flex';
+            const { chineseTotal } = getTotals();
+            const scratchArea = document.getElementById('scratch-area');
+            
+            // STRICTLY CHECK IF CHINESE TOTAL > 300
+            if(chineseTotal > 300) {
+                scratchArea.style.display = 'block';
+                if(!isScratched) {
+                    document.getElementById('scratch-cover').classList.remove('revealed');
+                    document.getElementById('scratch-win-text').innerText = "WIN";
+                }
+            } else {
+                scratchArea.style.display = 'none';
+            }
+
+            const list = document.getElementById('cart-items-list');
+            list.innerHTML = cart.map(i => `
+                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px;">
+                    <div><div style="color:white; font-weight:bold;">${i.name}</div><div style="color:var(--primary); font-size:12px;">${i.price}</div></div>
+                    <div style="color:white; font-weight:bold;">x${i.qty}</div>
+                </div>
+            `).join('');
+            
+            const totals = getTotals();
+            document.getElementById('summ-sub').innerHTML = totals.subtotal;
+            document.getElementById('summ-disc').innerHTML = totals.discount;
+            document.getElementById('summ-total').innerHTML = totals.total;
+        }
+
+        function hideCart() { document.getElementById('cart-overlay').style.display = 'none'; }
+
+        // --- CHECKOUT LOGIC ---
+        function toggleOtherSociety(select) {
+            document.getElementById('cust-other-society').style.display = select.value === "Other" ? "block" : "none";
+        }
+
+        function getLocation() {
+            if(navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(pos => {
+                    const link = `http://googleusercontent.com/maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
+                    document.getElementById('cust-location-url').value = link;
+                    alert("Location Captured Successfully!");
+                }, () => alert("Location Access Denied"));
+            } else alert("Geolocation not supported");
+        }
+
+        function whatsappCheckout() {
+            const name = document.getElementById('cust-name').value;
+            const phone = document.getElementById('cust-phone').value;
+            let society = document.getElementById('cust-society').value;
+            if(society === "Other") society = document.getElementById('cust-other-society').value;
+            const flat = document.getElementById('cust-flat').value;
+            const loc = document.getElementById('cust-location-url').value;
+            const note = document.getElementById('cust-note').value; 
+            
+            if(!name || !society || !flat) return alert("Please fill Name, Address & Flat No.");
+
+            const { subtotal, discount, total } = getTotals();
+
+            let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
+            msg += `Name: ${name}%0APhone: ${phone}%0AAddr: ${flat}, ${society}%0A`;
+            if(loc) msg += `Loc: ${loc}%0A`;
+            if(note) msg += `Note: ${note}%0A`;
+
+            msg += `%0A*ITEMS:*%0A`;
+            cart.forEach(i => msg += `- ${i.name} x${i.qty} = ${i.price*i.qty}%0A`);
+            msg += `%0A*Subtotal: ${subtotal}*`;
+            if(discount > 0) msg += `%0A*Scratch Won: -${discount}*`;
+            msg += `%0A*FINAL TOTAL: ${total}*`;
+            
+            window.open(`https://wa.me/${config.phone}?text=${msg}`);
+        }
+
+        // --- MUSIC ---
+        function musicVol(change) {
+            const audio = document.getElementById('bg-music');
+            let newVol = audio.volume + change;
+            if(newVol > 1) newVol = 1;
+            if(newVol < 0) newVol = 0;
+            audio.volume = newVol;
+        }
+
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const icon = document.getElementById('music-play-icon');
+            if(audio.paused) {
+                audio.play().then(() => {
+                    icon.className = "ri-pause-circle-fill";
+                    icon.style.color = "var(--primary)";
+                }).catch(e => {
+                    alert("Tap anywhere on the screen first, then try playing!");
+                });
+            } else {
+                audio.pause();
+                icon.className = "ri-play-fill";
+                icon.style.color = "white";
+            }
+        }
+
+        function shareMenu() {
+            if(navigator.share) navigator.share({title: "FLAVRZ Menu", url: window.location.href});
+            else {
+                navigator.clipboard.writeText(window.location.href);
+                alert("Menu Link copied!");
+            }
+        }
+
+        // --- ADMIN FUNCTIONS ---
         function handleSecretClick() {
             adminTapCount++;
             if(adminTapCount >= 5) {
@@ -366,232 +713,146 @@
 
         function openAdminPanel() {
             document.getElementById('admin-overlay').style.display = 'flex';
-            ['search','welcome','offers','special','gallery'].forEach(k => {
+            ['search'].forEach(k => {
                 const isActive = settings['show'+k.charAt(0).toUpperCase()+k.slice(1)];
-                document.getElementById(`toggle-${k}`).className = `toggle-switch ${isActive ? 'active' : ''}`;
+                const el = document.getElementById(`toggle-${k}`);
+                if(isActive) el.classList.add('active'); else el.classList.remove('active');
             });
-            document.getElementById('admin-upi-id').value = settings.upiId || "";
+            
+            document.getElementById('admin-map-url').value = settings.mapLink || "";
+            document.getElementById('admin-group-url').value = settings.groupLink || "";
             document.getElementById('admin-music-url').value = settings.musicUrl || "";
-            document.getElementById('admin-qr-url').value = settings.qrCode || "";
             document.getElementById('edit-welcome-text').value = settings.welcomeText;
+            document.getElementById('admin-profile-img').value = settings.profileImg || "";
             document.getElementById('edit-offer-text').value = settings.offerText;
+            renderAdminMenu();
+        }
+
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(`tab-btn-${tab}`).classList.add('active');
+            document.getElementById('admin-tab-general').style.display = tab === 'general' ? 'block' : 'none';
+            document.getElementById('admin-tab-profile').style.display = tab === 'profile' ? 'block' : 'none';
+            document.getElementById('admin-tab-menu').style.display = tab === 'menu' ? 'block' : 'none';
         }
 
         function toggleSetting(key) {
             let fullKey = 'show'+key.charAt(0).toUpperCase()+key.slice(1); 
             settings[fullKey] = !settings[fullKey];
-            document.getElementById(`toggle-${key}`).classList.toggle('active');
+            const el = document.getElementById(`toggle-${key}`);
+            el.classList.toggle('active');
+            localStorage.setItem('flavrz_settings', JSON.stringify(settings));
+            renderUI();
         }
 
         function saveAdminSettings() {
-            settings.upiId = document.getElementById('admin-upi-id').value;
+            settings.mapLink = document.getElementById('admin-map-url').value;
+            settings.groupLink = document.getElementById('admin-group-url').value;
             settings.musicUrl = document.getElementById('admin-music-url').value;
-            settings.qrCode = document.getElementById('admin-qr-url').value;
             settings.welcomeText = document.getElementById('edit-welcome-text').value;
+            settings.profileImg = document.getElementById('admin-profile-img').value;
             settings.offerText = document.getElementById('edit-offer-text').value;
-            
             localStorage.setItem('flavrz_settings', JSON.stringify(settings));
             alert("Settings Saved!");
-            location.reload();
+            renderUI();
         }
 
         function factoryReset() {
-            if(confirm("Caution: This will reset the menu to Jassi Pajji's Default Menu. Continue?")) {
+            if(confirm("DANGER: Reset Everything to Default?")) {
                 localStorage.clear();
                 location.reload();
             }
         }
 
-        // --- UI RENDERING ---
-        function renderUI() {
-            document.getElementById('hero-banner').style.display = settings.showWelcome ? 'block' : 'none';
-            document.getElementById('offers-container').style.display = settings.showOffers ? 'flex' : 'none';
-            document.getElementById('special-section-container').style.display = settings.showSpecial ? 'block' : 'none';
-            document.getElementById('gallery-section-container').style.display = settings.showGallery ? 'block' : 'none';
-            
-            document.getElementById('welcome-text-display').innerHTML = settings.welcomeText;
-            document.getElementById('offer-text-display').innerText = settings.offerText;
-            
-            const contactDiv = document.getElementById('contact-grid-display');
-            contactDiv.innerHTML = settings.contactNumbers.map(n => 
-                `<a href="tel:${n}" class="glow-btn"><i class="ri-phone-fill"></i> ${n}</a>`
-            ).join('');
-        }
-
-        function renderMenu() {
-            const list = document.getElementById('menu-list');
-            const nav = document.getElementById('cat-nav');
-            list.innerHTML = ""; nav.innerHTML = "";
-
-            if(!menu || Object.keys(menu).length === 0) {
-                 list.innerHTML = "<div style='text-align:center; padding:20px; color:#666;'>No items. Use Factory Reset.</div>";
-                 return;
-            }
-
+        function renderAdminMenu() {
+            const container = document.getElementById('admin-menu-container');
+            container.innerHTML = "";
             Object.entries(menu).forEach(([cat, items]) => {
-                nav.innerHTML += `<div class="chip" onclick="document.getElementById('cat-${cat}').scrollIntoView()">${cat}</div>`;
-                
-                let itemsHtml = items.map((item, idx) => {
-                    const qty = cart.find(x => x.name === item.name)?.qty || 0;
-                    return `
-                    <div class="food-card-grid">
-                        <div style="width:90px; height:90px; background:#222; border-radius:8px;">
-                            <img src="${item.img || 'https://via.placeholder.com/90?text=Food'}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;" onerror="this.src='https://via.placeholder.com/90?text=Food'">
+                let itemsHtml = items.map((item, idx) => `
+                    <div class="admin-edit-card">
+                        <div class="two-col">
+                            <input type="text" class="input-v2" value="${item.name}" placeholder="Name" id="edit-name-${cat}-${idx}" style="margin:0; padding:10px;">
+                            <input type="number" class="input-v2" value="${item.price}" placeholder="Price" id="edit-price-${cat}-${idx}" style="margin:0; padding:10px;">
                         </div>
-                        <div style="flex:1;">
-                            <div class="food-title-grid">${item.name}</div>
-                            <div style="font-size:10px; color:${item.type==='veg'?'#00E676':'#FF0055'}; margin-bottom:5px;">â— ${item.type.toUpperCase()}</div>
-                            <div class="food-price-grid">${item.price}</div>
-                            <div style="color:#888; font-size:11px; line-height:1.2;">${item.desc || ''}</div>
+                        <textarea class="input-v2" id="edit-desc-${cat}-${idx}" placeholder="Description" style="margin:5px 0; padding:10px; height:50px;">${item.desc || ''}</textarea>
+                        <div class="two-col" style="margin-bottom:10px;">
+                             <input type="text" class="input-v2" value="${item.img || ''}" placeholder="Image URL" id="edit-img-${cat}-${idx}" style="margin:0; padding:10px;">
+                             <select class="input-v2" id="edit-type-${cat}-${idx}" style="margin:0; padding:10px;">
+                                <option value="veg" ${item.type==='veg'?'selected':''}>Veg</option>
+                                <option value="non-veg" ${item.type==='non-veg'?'selected':''}>Non-Veg</option>
+                             </select>
                         </div>
-                        ${qty > 0 ? 
-                        `<div class="qty-group"><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, -1)">-</button><span class="qty-val">${qty}</span><button class="qty-btn" onclick="updateCart('${cat}', ${idx}, 1)">+</button></div>` :
-                        `<button class="add-btn" onclick="updateCart('${cat}', ${idx}, 1)">ADD</button>`}
-                    </div>`;
-                }).join('');
-
-                list.innerHTML += `<div id="cat-${cat}" class="section-header">${cat}</div><div>${itemsHtml}</div>`;
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <label style="color:#aaa; font-size:12px; display:flex; align-items:center; gap:5px;">
+                                <input type="checkbox" id="edit-stock-${cat}-${idx}" ${item.inStock !== false ? 'checked' : ''}> In Stock
+                            </label>
+                            <div style="display:flex; gap:5px;">
+                                <button onclick="deleteMenuItem('${cat}', ${idx})" class="btn-sm btn-danger">DELETE</button>
+                                <button onclick="saveMenuItem('${cat}', ${idx})" class="btn-sm btn-save">UPDATE</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+                container.innerHTML += `
+                    <div style="margin-top:20px; border-bottom:1px solid #333; padding-bottom:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                            <h3 style="color:var(--primary);">${cat}</h3>
+                            <button onclick="deleteCategory('${cat}')" class="btn-sm btn-danger" style="background:transparent; border:1px solid #ff3b30; color:#ff3b30;">DELETE CAT</button>
+                        </div>
+                        ${itemsHtml}
+                        <button onclick="addEmptyItem('${cat}')" style="width:100%; padding:10px; background:#222; border:1px dashed #555; color:#aaa; border-radius:8px; cursor:pointer;">+ Add Item to ${cat}</button>
+                    </div>
+                `;
             });
         }
 
-        function filterMenu() {
-            const term = document.getElementById('menuSearch').value.toLowerCase();
-            const vegOnly = document.getElementById('veg-toggle-cb').checked;
-            
-            document.querySelectorAll('.food-card-grid').forEach(card => {
-                const name = card.querySelector('.food-title-grid').innerText.toLowerCase();
-                const typeText = card.querySelector('.food-title-grid').nextElementSibling.innerText.toLowerCase();
-                const isVeg = typeText.includes('veg') && !typeText.includes('non');
-                
-                let visible = name.includes(term);
-                if(vegOnly && !isVeg) visible = false;
-                
-                card.style.display = visible ? 'flex' : 'none';
-            });
+        function addNewCategory() {
+            const name = document.getElementById('new-cat-name').value.trim();
+            if(!name) return alert("Enter Name");
+            if(menu[name]) return alert("Category exists");
+            menu[name] = [];
+            saveMenuState();
+            renderAdminMenu();
+            document.getElementById('new-cat-name').value = "";
         }
 
-        // --- CART LOGIC ---
-        function updateCart(cat, idx, change) {
-            const item = menu[cat][idx];
-            let existing = cart.find(x => x.name === item.name);
-            
-            if(existing) {
-                existing.qty += change;
-                if(existing.qty <= 0) cart = cart.filter(x => x.name !== item.name);
-            } else if(change > 0) {
-                cart.push({ ...item, qty: 1 });
-            }
-            updateCartUI();
-            renderMenu(); 
-        }
-
-        function updateCartUI() {
-            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            const count = cart.reduce((sum, i) => sum + i.qty, 0);
-            
-            const bar = document.getElementById('cart-bar');
-            bar.style.display = count > 0 ? 'flex' : 'none';
-            document.getElementById('cart-count').innerText = count;
-            // FIXED: Only number
-            document.getElementById('cart-total').innerHTML = total;
-        }
-
-        function showCart() {
-            document.getElementById('cart-overlay').style.display = 'flex';
-            const list = document.getElementById('cart-items-list');
-            list.innerHTML = cart.map(i => `
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #333; padding-bottom:10px;">
-                    <div><div style="color:white; font-weight:bold;">${i.name}</div><div style="color:var(--primary); font-size:12px;">${i.price}</div></div>
-                    <div style="color:white; font-weight:bold;">x${i.qty}</div>
-                </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-            // FIXED: Only numbers
-            document.getElementById('summary-subtotal').innerHTML = total;
-            document.getElementById('summary-total').innerHTML = total;
-        }
-
-        function hideCart() { document.getElementById('cart-overlay').style.display = 'none'; }
-
-        // --- CHECKOUT LOGIC ---
-        function toggleOtherSociety(select) {
-            const otherInput = document.getElementById('cust-other-society');
-            otherInput.style.display = select.value === "Other" ? "block" : "none";
-        }
-
-        function getLocation() {
-            if(navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(pos => {
-                    const link = `http://googleusercontent.com/maps.google.com/?q=${pos.coords.latitude},${pos.coords.longitude}`;
-                    document.getElementById('cust-location-url').value = link;
-                    alert("Location Captured! ðŸ“");
-                }, () => alert("Location Access Denied"));
-            } else alert("Geolocation not supported");
-        }
-
-        function whatsappCheckout() {
-            const name = document.getElementById('cust-name').value;
-            const phone = document.getElementById('cust-phone').value;
-            let society = document.getElementById('cust-society').value;
-            if(society === "Other") society = document.getElementById('cust-other-society').value;
-            const flat = document.getElementById('cust-flat').value;
-            const loc = document.getElementById('cust-location-url').value;
-            const note = document.getElementById('cust-note').value; 
-            
-            if(!name || !society || !flat) return alert("Please fill Name, Address & Flat No.");
-
-            let msg = `*NEW ORDER - FLAVRZ*%0A%0A`;
-            msg += `ðŸ‘¤ *Name:* ${name}%0AðŸ“ž *Phone:* ${phone}%0AðŸ  *Addr:* ${flat}, ${society}%0A`;
-            if(loc) msg += `ðŸ“ *Loc:* ${loc}%0A`;
-            if(note) msg += `ðŸ“ *Note:* ${note}%0A`;
-
-            msg += `%0A*ITEMS:*%0A`;
-            // FIXED: Removed symbol from WA message too
-            cart.forEach(i => msg += `â€¢ ${i.name} x${i.qty} - ${i.price*i.qty}%0A`);
-            msg += `%0A*TOTAL: ${document.getElementById('cart-total').innerText}*`;
-            
-            window.open(`https://wa.me/${config.phone}?text=${msg}`);
-        }
-
-        // --- MUSIC ---
-        function initMusic() {
-            const audio = document.getElementById('bg-music');
-            if(settings.musicUrl) {
-                audio.src = settings.musicUrl;
-                audio.volume = 0; 
+        function deleteCategory(cat) {
+            if(confirm(`Delete category "${cat}" and all its items?`)) {
+                delete menu[cat];
+                saveMenuState();
+                renderAdminMenu();
             }
         }
 
-        function toggleMusic() {
-            const audio = document.getElementById('bg-music');
-            const icon = document.getElementById('music-icon');
-            if(audio.paused) {
-                audio.play();
-                icon.className = "ri-pause-circle-line";
-                let vol = 0;
-                let fade = setInterval(() => {
-                    if(vol < document.getElementById('vol-control').value) {
-                        vol += 0.05;
-                        audio.volume = Math.min(vol, 1);
-                    } else clearInterval(fade);
-                }, 200);
-            } else {
-                audio.pause();
-                icon.className = "ri-disc-line";
+        function addEmptyItem(cat) {
+            menu[cat].push({ name: "New Item", price: 100, type: "veg", desc: "", img: "", inStock: true });
+            saveMenuState();
+            renderAdminMenu();
+        }
+
+        function saveMenuItem(cat, idx) {
+            const name = document.getElementById(`edit-name-${cat}-${idx}`).value;
+            const price = Number(document.getElementById(`edit-price-${cat}-${idx}`).value);
+            const desc = document.getElementById(`edit-desc-${cat}-${idx}`).value;
+            const img = document.getElementById(`edit-img-${cat}-${idx}`).value;
+            const type = document.getElementById(`edit-type-${cat}-${idx}`).value;
+            const inStock = document.getElementById(`edit-stock-${cat}-${idx}`).checked;
+            menu[cat][idx] = { name, price, desc, img, type, inStock };
+            saveMenuState();
+            alert("Item Updated!");
+        }
+
+        function deleteMenuItem(cat, idx) {
+            if(confirm("Delete this item?")) {
+                menu[cat].splice(idx, 1);
+                saveMenuState();
+                renderAdminMenu();
             }
         }
 
-        function adjustVolume(val) {
-            document.getElementById('bg-music').volume = val;
-        }
-
-        function shareMenu() {
-            if(navigator.share) navigator.share({title: "FLAVRZ Menu", url: window.location.href});
-            else {
-                navigator.clipboard.writeText(window.location.href);
-                alert("Menu Link copied!");
-            }
+        function saveMenuState() {
+            localStorage.setItem('flavrz_menu', JSON.stringify(menu));
+            renderMenu();
         }
 
         init();
